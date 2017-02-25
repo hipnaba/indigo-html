@@ -1,11 +1,12 @@
 language: php
 php:
-  - '7.0'
   - '7.1'
 install:
   - composer install
+before_script:
+  - composer require squizlabs/php_codesniffer
 script:
   - phpunit
-  - phpcs
+  - ./vendor/bin/phpcs
 after_script:
-  - php vendor/bin/codacycoverage clover
+  - php vendor/bin/codacycoverage clover build/logs/clover.xml
