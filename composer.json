@@ -1,0 +1,26 @@
+{
+  "name": "hipnaba/indigo-html",
+  "require": {
+    "php": "*",
+
+    "zendframework/zend-stdlib": "^3.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Indigo\\Html\\": "src/"
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.0",
+    "zendframework/zend-escaper": "^2.5",
+    "zendframework/zend-json": "^3.0",
+    "zendframework/zend-modulemanager": "^2.7",
+    "zendframework/zend-servicemanager": "^3.2",
+    "zendframework/zend-view": "^2.8"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "IndigoTest\\Html\\": "test/"
+    }
+  }
+}
