@@ -1,6 +1,7 @@
 # Indigo HTML
 
 [![Build Status](https://travis-ci.org/hipnaba/indigo-html.svg?branch=master)](https://travis-ci.org/hipnaba/indigo-html.svg?branch=master)
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/729/badge)](https://bestpractices.coreinfrastructure.org/projects/729)
 
 - An HTML abstraction layer.
 - Rendering powered by [Zend View](https://docs.zendframework.com/zend-view/).
