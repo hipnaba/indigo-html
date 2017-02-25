@@ -11,13 +11,19 @@ use Zend\View\Renderer\PhpRenderer;
 /**
  * Abstract Element Helper
  *
- * @package Indigo\Html\View
+ * @package Indigo\Html\Helper
+ * @author  Danijel Fabijan <hipnaba@gmail.com>
+ * @link    https://github.com/hipnaba/indigo-html
  *
  * @method PhpRenderer getView()
  */
 abstract class AbstractHtmlHelper extends BaseAbstractHelper
 {
-    /** @see https://developer.mozilla.org/en/docs/Web/HTML/Element */
+    /**
+     * All HTML tags that don't have an end tag
+     *
+     * @see https://developer.mozilla.org/en/docs/Web/HTML/Element
+     */
     const NO_END_TAG = [
         // Document metadata
         'base',
@@ -43,8 +49,6 @@ abstract class AbstractHtmlHelper extends BaseAbstractHelper
         // Interactive elements
         'menuitem',
     ];
-    /** It's up to concrete helpers to define valid attributes for the element they're rendering. */
-    const ATTRIBUTES = [];
 
     /**
      * Renders an Indigo Element.
@@ -52,9 +56,9 @@ abstract class AbstractHtmlHelper extends BaseAbstractHelper
      * If no element is passed, returns itself. Can be used to configure
      * the helper before calling `render`.
      *
-     * @param ElementInterface|null $element
+     * @param ElementInterface|null $element Element to render
+     *
      * @return AbstractHtmlHelper|string
-     * @todo Find a way to use $this instead of AbstractElementHelper in @return without causing errors in PhpStorm.
      */
     public function __invoke(ElementInterface $element = null)
     {
@@ -68,7 +72,8 @@ abstract class AbstractHtmlHelper extends BaseAbstractHelper
     /**
      * Returns the element's HTML.
      *
-     * @param ElementInterface $element
+     * @param ElementInterface $element Element to render
+     *
      * @return string
      */
     abstract public function render(ElementInterface $element);
@@ -76,14 +81,24 @@ abstract class AbstractHtmlHelper extends BaseAbstractHelper
     /**
      * Renders the HTML attributes string.
      *
-     * @param array $attributes
+     * @param array $attributes Attributes to render
+     *
      * @return string
      */
     protected function getAttributeString(array $attributes)
     {
-        /** @var EscapeHtml $escapeHtml */
+        /**
+         * HTML escaper
+         *
+         * @var EscapeHtml $escapeHtml
+         */
         $escapeHtml = $this->getView()->plugin('escapeHtml');
-        /** @var EscapeHtmlAttr $escapeHtmlAttr */
+
+        /**
+         * HTML attribute escaper
+         *
+         * @var EscapeHtmlAttr $escapeHtmlAttr
+         */
         $escapeHtmlAttr = $this->getView()->plugin('escapeHtmlAttr');
 
         $rendered = [];
@@ -102,7 +117,8 @@ abstract class AbstractHtmlHelper extends BaseAbstractHelper
     /**
      * Returns true if a given element in fact has an end tag.
      *
-     * @param ElementInterface $element
+     * @param ElementInterface $element Element to check
+     *
      * @return bool
      */
     protected function hasEndTag(ElementInterface $element)

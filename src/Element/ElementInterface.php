@@ -8,12 +8,18 @@ use IteratorAggregate;
  * Defines a HTML element.
  *
  * @package Indigo\Html
+ * @author  Danijel Fabijan <hipnaba@gmail.com>
+ * @link    https://github.com/hipnaba/indigo-html
  */
 interface ElementInterface extends
     Countable,
     IteratorAggregate
 {
-    /** @see https://developer.mozilla.org/en/docs/Web/HTML/Element */
+    /**
+     * All HTML tag names
+     *
+     * @see https://developer.mozilla.org/en/docs/Web/HTML/Element
+     */
     const TAG_NAMES = [
         // Main root
         'html',
@@ -140,7 +146,12 @@ interface ElementInterface extends
         'slot',
         'template',
     ];
-    /** @see https://developer.mozilla.org/en/docs/Web/HTML/Global_attributes */
+
+    /**
+     * All Global attributes
+     *
+     * @see https://developer.mozilla.org/en/docs/Web/HTML/Global_attributes
+     */
     const GLOBAL_ATTRIBUTES = [
         'accesskey' => [
             'type' => 'list',
@@ -207,16 +218,17 @@ interface ElementInterface extends
             ],
         ],
     ];
-    /** Valid attributes for tags */
+
+    /**
+     * Valid attributes for tags
+     */
     const TAG_ATTRIBUTES = [
         // Main root
         'html' => [
-            /** @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/html */
             'xmlns',
         ],
         // Document metadata
         'base' => [
-            /** @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base */
             'href',
             'target',
         ],
@@ -723,22 +735,26 @@ interface ElementInterface extends
     /**
      * Sets the element's tag name.
      *
-     * @param string $tagName
+     * @param string $tagName New tag name
+     *
+     * @return void
      */
     public function setTag($tagName);
 
     /**
      * Returns true if the element has an attribute.
      *
-     * @param  string $name
-     * @return bool
+     * @param string $name Attribute name
+     *
+     * @return boolean
      */
     public function hasAttribute($name);
 
     /**
      * Returns an element's attribute value.
      *
-     * @param  string $name
+     * @param string $name Attribute name
+     *
      * @return mixed
      */
     public function getAttribute($name);
@@ -746,8 +762,10 @@ interface ElementInterface extends
     /**
      * Set an element's attribute value
      *
-     * @param  string $name
-     * @param  mixed $value
+     * @param string $name  Attribute name
+     * @param mixed  $value Attribute value
+     *
+     * @return void
      */
     public function setAttribute($name, $value);
 
@@ -761,28 +779,34 @@ interface ElementInterface extends
     /**
      * Sets multiple attributes.
      *
-     * @param  array $attributes
+     * @param array $attributes New element attributes
+     *
+     * @return void
      */
     public function setAttributes(array $attributes);
 
     /**
      * Remove an element's attribute.
      *
-     * @param string $name
+     * @param string $name Name of the attribute to be removed
+     *
+     * @return void
      */
     public function removeAttribute($name);
 
     /**
      * Removes multiple attributes.
      *
-     * @param array $names
+     * @param array $names Names of attributes to be removed
+     *
+     * @return void
      */
     public function removeAttributes(array $names);
 
     /**
      * Removes all attributes from the element.
      *
-     * @return $this
+     * @return void
      */
     public function clearAttributes();
 
@@ -796,7 +820,9 @@ interface ElementInterface extends
     /**
      * Sets the element's content.
      *
-     * @param string $content
+     * @param string $content New content for the element
+     *
+     * @return void
      */
     public function setContent($content);
 
@@ -810,7 +836,9 @@ interface ElementInterface extends
     /**
      * Adds another alement as a child.
      *
-     * @param ElementInterface $element
+     * @param ElementInterface $element Element to append to this one
+     *
+     * @return void
      */
     public function append(ElementInterface $element);
 }

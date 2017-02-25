@@ -4,5 +4,8 @@ php:
   - '7.1'
 install:
   - composer install
+script:
+  - phpunit
+  - phpcs
 after_script:
   - php vendor/bin/codacycoverage clover

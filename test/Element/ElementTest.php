@@ -4,8 +4,20 @@ namespace IndigoTest\Html\Element;
 use Indigo\Html\Element\Element;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class ElementTest
+ *
+ * @package IndigoTest\Html\Element
+ * @author  Danijel Fabijan <hipnaba@gmail.com>
+ * @link    https://github.com/hipnaba/indigo-html
+ */
 class ElementTest extends TestCase
 {
+    /**
+     * Tests the constructor
+     *
+     * @return void
+     */
     public function testElementIsInitializedProperly()
     {
         $element = new Element('div', [
@@ -18,7 +30,11 @@ class ElementTest extends TestCase
     }
 
     /**
+     * Elements should not accept invalid tag names
+     *
      * @expectedException \Indigo\Html\Exception\InvalidTagNameException
+     *
+     * @return void
      */
     public function testWiillThrowExceptionForInvalidTagName()
     {
@@ -26,7 +42,11 @@ class ElementTest extends TestCase
     }
 
     /**
+     * Elements should not accept invalid attribute names
+     *
      * @expectedException \Indigo\Html\Exception\InvalidAttributeNameException
+     *
+     * @return void
      */
     public function testWillThrowExceptionForInvalidAttributeName()
     {
@@ -35,6 +55,11 @@ class ElementTest extends TestCase
         ]);
     }
 
+    /**
+     * Tags must define their own attributes
+     *
+     * @return void
+     */
     public function testWillAcceptElementSpecificAttributes()
     {
         $element = new Element('base', [
@@ -44,15 +69,11 @@ class ElementTest extends TestCase
         $this->assertEquals('value', $element->getAttribute('href'));
     }
 
-    public function testWillAcceptTypedAttribute()
-    {
-        $element = new Element('link', [
-            'class' => 'class-name',
-        ]);
-
-        $this->assertEquals('class-name', $element->getAttribute('class'));
-    }
-
+    /**
+     * List type attributes should accept arrays for value
+     *
+     * @return void
+     */
     public function testWillAcceptArrayForListAttribute()
     {
         $element = new Element('div', [
@@ -63,7 +84,11 @@ class ElementTest extends TestCase
     }
 
     /**
+     * Enum type attributes should only accept valid values
+     *
      * @expectedException \Indigo\Html\Exception\InvalidAttributeValueException
+     *
+     * @return void
      */
     public function testWillThrowExceptionForInvalidEnumValue()
     {
@@ -72,15 +97,11 @@ class ElementTest extends TestCase
         ]);
     }
 
-    public function testWillAcceptValidEnumValues()
-    {
-        $element = new Element('div', [
-            'contenteditable' => 'true',
-        ]);
-
-        $this->assertEquals('true', $element->getAttribute('contenteditable'));
-    }
-
+    /**
+     * Enum type values can be converted
+     *
+     * @return void
+     */
     public function testWillConvertBooleanToStringForEnums()
     {
         $element = new Element('div', [
@@ -91,6 +112,11 @@ class ElementTest extends TestCase
         $this->assertEquals('false', $element->getAttribute('contenteditable'));
     }
 
+    /**
+     * HasAttribute should return true for attributes not set but valid for the element
+     *
+     * @return void
+     */
     public function testHasAttribute()
     {
         $element = new Element('a');
@@ -100,6 +126,11 @@ class ElementTest extends TestCase
         $this->assertFalse($element->hasAttribute('invalid attribute'));
     }
 
+    /**
+     * Element will accept any attribute name starting with data-
+     *
+     * @return void
+     */
     public function testCanWorkWithDataAttributes()
     {
         $element = new Element('div', [
@@ -109,6 +140,11 @@ class ElementTest extends TestCase
         $this->assertEquals('value', $element->getAttribute('data-test'));
     }
 
+    /**
+     * Element should properly handle boolean attributes
+     *
+     * @return void
+     */
     public function testCanWorkWithBooleanAttributes()
     {
         $element = new Element('input');
@@ -127,7 +163,11 @@ class ElementTest extends TestCase
     }
 
     /**
+     * Integer type attributes should only accept numeric values
+     *
      * @expectedException \Indigo\Html\Exception\InvalidAttributeValueException
+     *
+     * @return void
      */
     public function testWillThrowExceptionForInvalidIntegerValue()
     {

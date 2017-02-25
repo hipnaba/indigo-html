@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<ruleset name="Indigo coding standard">
+  <description>Indigo coding standard</description>
+
+  <!-- display progress -->
+  <arg value="p"/>
+  <arg name="colors"/>
+
+  <!-- inherit rules from: -->
+  <rule ref="PEAR">
+    <exclude name="PEAR.Commenting.FileComment.Missing"/>
+    <exclude name="PEAR.Commenting.ClassComment.MissingCategoryTag"/>
+    <exclude name="PEAR.Commenting.ClassComment.MissingLicenseTag"/>
+    <exclude name="PEAR.Functions.FunctionCallSignature.ContentAfterOpenBracket"/>
+    <exclude name="PEAR.Functions.FunctionCallSignature.CloseBracketLine"/>
+    <exclude name="PEAR.Functions.FunctionCallSignature.Indent"/>
+    <exclude name="PEAR.WhiteSpace.ScopeIndent.IncorrectExact"/>
+  </rule>
+  <rule ref="PSR2"/>
+
+  <!-- Paths to check -->
+  <file>src</file>
+  <file>test</file>
+</ruleset>

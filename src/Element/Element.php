@@ -9,6 +9,8 @@ use Zend\Stdlib\ArrayUtils;
  * A HTML Element.
  *
  * @package Indigo\Html
+ * @author  Danijel Fabijan <hipnaba@gmail.com>
+ * @link    https://github.com/hipnaba/indigo-html
  */
 class Element implements ElementInterface
 {
@@ -56,6 +58,8 @@ class Element implements ElementInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return string
      */
     public function getTag()
     {
@@ -64,6 +68,10 @@ class Element implements ElementInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @param string $tag New tag name
+     *
+     * @return void
      */
     public function setTag($tag)
     {
@@ -79,9 +87,10 @@ class Element implements ElementInterface
     }
 
     /**
-     * Returns all attribute data for this tag.
+     * Returns all attribute data for this tag or data for a single attribute if the name is passed
      *
-     * @param null $attribute
+     * @param string|null $attribute Attribute name for which we're getting the metadata
+     *
      * @return array
      */
     protected function getAttributeMetadata($attribute = null)
@@ -111,6 +120,10 @@ class Element implements ElementInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @param string $name Attribute name
+     *
+     * @return boolean
      */
     public function hasAttribute($name)
     {
@@ -124,6 +137,10 @@ class Element implements ElementInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @param string $name Attribute name
+     *
+     * @return mixed
      */
     public function getAttribute($name)
     {
@@ -140,6 +157,11 @@ class Element implements ElementInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @param string $name  Attribute name
+     * @param mixed  $value Attribute value
+     *
+     * @return void
      */
     public function setAttribute($name, $value)
     {
@@ -190,6 +212,8 @@ class Element implements ElementInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return array
      */
     public function getAttributes()
     {
@@ -198,6 +222,10 @@ class Element implements ElementInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @param array $attributes New element attributes
+     *
+     * @return void
      */
     public function setAttributes(array $attributes)
     {
@@ -208,6 +236,10 @@ class Element implements ElementInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @param string $name Name of the attribute to be removed
+     *
+     * @return void
      */
     public function removeAttribute($name)
     {
@@ -216,6 +248,10 @@ class Element implements ElementInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @param array $names Names of attributes to be removed
+     *
+     * @return void
      */
     public function removeAttributes(array $names)
     {
@@ -226,6 +262,8 @@ class Element implements ElementInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return void
      */
     public function clearAttributes()
     {
@@ -234,6 +272,8 @@ class Element implements ElementInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return string
      */
     public function getContent()
     {
@@ -242,6 +282,10 @@ class Element implements ElementInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @param string $content New content for the element
+     *
+     * @return void
      */
     public function setContent($content)
     {
@@ -250,6 +294,8 @@ class Element implements ElementInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return ElementInterface[]
      */
     public function getChildren()
     {
@@ -258,6 +304,10 @@ class Element implements ElementInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @param ElementInterface $element Element to append to this one
+     *
+     * @return void
      */
     public function append(ElementInterface $element)
     {
@@ -266,6 +316,8 @@ class Element implements ElementInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return integer
      */
     public function count()
     {
@@ -273,6 +325,8 @@ class Element implements ElementInterface
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @return ElementInterface[]
      */
     public function getIterator()

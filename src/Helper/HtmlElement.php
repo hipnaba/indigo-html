@@ -7,13 +7,16 @@ use Indigo\Html\Element\ElementInterface;
  * Renders a HTML element.
  *
  * @package Indigo\Html\Helper
+ * @author  Danijel Fabijan <hipnaba@gmail.com>
+ * @link    https://github.com/hipnaba/indigo-html
  */
 class HtmlElement extends AbstractHtmlHelper
 {
     /**
      * Renders a HTML element.
      *
-     * @param ElementInterface $element
+     * @param ElementInterface $element Element to render
+     *
      * @return string
      */
     public function render(ElementInterface $element)
