@@ -2,20 +2,20 @@
 namespace IndigoTest\Html\Helper;
 
 use Indigo\Html\Element\Element;
-use Indigo\Html\Helper\AbstractHelper;
+use Indigo\Html\Helper\AbstractHtmlHelper;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 
 class AbstractHelperTest extends TestCase
 {
-    /** @var AbstractHelper|PHPUnit_Framework_MockObject_MockObject */
+    /** @var AbstractHtmlHelper|PHPUnit_Framework_MockObject_MockObject */
     protected $helper;
 
     protected function setUp()
     {
         parent::setUp();
 
-        $this->helper = $this->getMockForAbstractClass(AbstractHelper::class);
+        $this->helper = $this->getMockForAbstractClass(AbstractHtmlHelper::class);
     }
 
     public function testHelperIsInvokable()

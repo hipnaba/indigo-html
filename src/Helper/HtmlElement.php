@@ -8,7 +8,7 @@ use Indigo\Html\Element\ElementInterface;
  *
  * @package Indigo\Html\Helper
  */
-class HtmlElement extends AbstractHelper
+class HtmlElement extends AbstractHtmlHelper
 {
     /**
      * Renders a HTML element.

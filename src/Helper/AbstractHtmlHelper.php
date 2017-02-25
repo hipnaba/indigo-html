@@ -15,7 +15,7 @@ use Zend\View\Renderer\PhpRenderer;
  *
  * @method PhpRenderer getView()
  */
-abstract class AbstractHelper extends BaseAbstractHelper
+abstract class AbstractHtmlHelper extends BaseAbstractHelper
 {
     /** @see https://developer.mozilla.org/en/docs/Web/HTML/Element */
     const NO_END_TAG = [
@@ -53,7 +53,7 @@ abstract class AbstractHelper extends BaseAbstractHelper
      * the helper before calling `render`.
      *
      * @param ElementInterface|null $element
-     * @return AbstractHelper|string
+     * @return AbstractHtmlHelper|string
      * @todo Find a way to use $this instead of AbstractElementHelper in @return without causing errors in PhpStorm.
      */
     public function __invoke(ElementInterface $element = null)
