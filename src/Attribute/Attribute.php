@@ -2,7 +2,7 @@
 namespace Indigo\Html\Attribute;
 
 /**
- * An HTML Attribute
+ * A generic HTML Attribute
  *
  * @package Indigo\Html\Attribute
  * @author  Danijel Fabijan <hipnaba@gmail.com>

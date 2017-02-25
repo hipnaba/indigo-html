@@ -42,20 +42,6 @@ class ElementTest extends TestCase
     }
 
     /**
-     * Elements should not accept invalid attribute names
-     *
-     * @expectedException \Indigo\Html\Exception\InvalidAttributeNameException
-     *
-     * @return void
-     */
-    public function testWillThrowExceptionForInvalidAttributeName()
-    {
-        new Element('div', [
-            'invalid' => 'value',
-        ]);
-    }
-
-    /**
      * Tags must define their own attributes
      *
      * @return void
@@ -67,91 +53,5 @@ class ElementTest extends TestCase
         ]);
 
         $this->assertEquals('value', $element->getAttribute('href'));
-    }
-
-    /**
-     * List type attributes should accept arrays for value
-     *
-     * @return void
-     */
-    public function testWillAcceptArrayForListAttribute()
-    {
-        $element = new Element('div', [
-            'class' => ['one', 'two'],
-        ]);
-
-        $this->assertEquals('one two', $element->getAttribute('class'));
-    }
-
-    /**
-     * Enum type attributes should only accept valid values
-     *
-     * @expectedException \Indigo\Html\Exception\InvalidAttributeValueException
-     *
-     * @return void
-     */
-    public function testWillThrowExceptionForInvalidEnumValue()
-    {
-        $element = new Element('div');
-        $element->setAttribute('contenteditable', 'invalid');
-    }
-
-    /**
-     * Enum type values can be converted
-     *
-     * @return void
-     */
-    public function testWillConvertBooleanToStringForEnums()
-    {
-        $element = new Element('div', [
-            'contenteditable' => false,
-            'tabindex' => -1,
-        ]);
-
-        $this->assertEquals('false', $element->getAttribute('contenteditable'));
-    }
-
-    /**
-     * Element will accept any attribute name starting with data-
-     *
-     * @return void
-     */
-    public function testCanWorkWithDataAttributes()
-    {
-        $element = new Element('div', [
-           'data-test' => 'value',
-        ]);
-
-        $this->assertEquals('value', $element->getAttribute('data-test'));
-    }
-
-    /**
-     * Element should properly handle boolean attributes
-     *
-     * @return void
-     */
-    public function testCanWorkWithBooleanAttributes()
-    {
-        $element = new Element('input');
-        $element->setAttribute('required', true);
-
-        $this->assertArrayHasKey('required', $element->getAttributes());
-
-        $element->setAttribute('required', false);
-        $this->assertArrayNotHasKey('required', $element->getAttributes());
-    }
-
-    /**
-     * Integer type attributes should only accept numeric values
-     *
-     * @expectedException \Indigo\Html\Exception\InvalidAttributeValueException
-     *
-     * @return void
-     */
-    public function testWillThrowExceptionForInvalidIntegerValue()
-    {
-        new Element('div', [
-            'tabindex' => 'not an integer',
-        ]);
     }
 }

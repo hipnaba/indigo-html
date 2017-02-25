@@ -65,7 +65,7 @@ trait CssClassAwareTrait
     public function replaceClass($search, $replace)
     {
         $search = $this->getClassRegex($search);
-        $replace = sprintf('\\1%s\\2', $replace);
+        $replace = sprintf(' %s ', $replace);
 
         $newClass = preg_replace($search, $replace, $this->getAttribute('class'));
         $this->setAttribute('class', trim($newClass));
@@ -80,6 +80,6 @@ trait CssClassAwareTrait
      */
     protected function getClassRegex($class)
     {
-        return sprintf('/(^|\s)%s(\s|$)/', preg_quote($class, '/'));
+        return sprintf('/(^|\s)%s(\s|$)/', $class);
     }
 }

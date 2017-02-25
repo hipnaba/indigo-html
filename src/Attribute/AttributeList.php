@@ -2,6 +2,7 @@
 namespace Indigo\Html\Attribute;
 
 use ArrayAccess;
+use Countable;
 use Indigo\Html\Element\ElementInterface;
 
 /**
@@ -11,7 +12,9 @@ use Indigo\Html\Element\ElementInterface;
  * @author  Danijel Fabijan <hipnaba@gmail.com>
  * @link    https://github.com/hipnaba/indigo-html
  */
-class AttributeList implements ArrayAccess
+class AttributeList implements
+    ArrayAccess,
+    Countable
 {
     /**
      * Attributes stored in this list
@@ -186,5 +189,15 @@ class AttributeList implements ArrayAccess
     public function offsetUnset($offset)
     {
         $this->remove($offset);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return integer
+     */
+    public function count()
+    {
+        return count($this->attributes);
     }
 }

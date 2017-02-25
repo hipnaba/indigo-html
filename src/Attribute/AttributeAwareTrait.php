@@ -1,6 +1,8 @@
 <?php
 namespace Indigo\Html\Attribute;
 
+use Indigo\Html\Element\ElementInterface;
+
 /**
  * Class AttributeAwareTrait
  *
@@ -108,7 +110,7 @@ trait AttributeAwareTrait
     public function removeAttribute($name)
     {
         $attributes = $this->getAttributeList();
-        $attributes->remove($name);
+        unset($attributes[$name]);
     }
 
     /**
@@ -132,7 +134,7 @@ trait AttributeAwareTrait
      */
     public function clearAttributes()
     {
-        $this->attributes = new AttributeList($this);
+        $this->attributes = null;
     }
 
     /**
@@ -143,7 +145,9 @@ trait AttributeAwareTrait
     protected function getAttributeList()
     {
         if (null === $this->attributes) {
-            $this->attributes = new AttributeList($this);
+            $this->attributes = new AttributeList(
+                $this instanceof ElementInterface ? $this : null
+            );
         }
 
         return $this->attributes;
