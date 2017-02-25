@@ -1,5 +1,7 @@
 # Indigo HTML
 
+[![Build Status](https://travis-ci.org/hipnaba/indigo-html.svg?branch=master)](https://travis-ci.org/hipnaba/indigo-html.svg?branch=master)
+
 - An HTML abstraction layer.
 - Rendering powered by [Zend View](https://docs.zendframework.com/zend-view/).
 
