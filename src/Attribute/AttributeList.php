@@ -20,6 +20,39 @@ class AttributeList implements ArrayAccess
     protected $attributes = [];
 
     /**
+     * Factory used to build attributes
+     *
+     * @var AttributeFactory
+     */
+    protected $factory;
+
+    /**
+     * Returns the attribute factory.
+     *
+     * @return AttributeFactory
+     */
+    public function getFactory()
+    {
+        if (null === $this->factory) {
+            $this->factory = new AttributeFactory();
+        }
+
+        return $this->factory;
+    }
+
+    /**
+     * Sets the attribute factory.
+     *
+     * @param AttributeFactory $factory The factory to use.
+     *
+     * @return void
+     */
+    public function setFactory(AttributeFactory $factory)
+    {
+        $this->factory = $factory;
+    }
+
+    /**
      * Adds an attribute to the list
      *
      * @param AttributeInterface $attribute The attribute
@@ -96,7 +129,8 @@ class AttributeList implements ArrayAccess
     public function offsetSet($offset, $value)
     {
         if (!$this->has($offset)) {
-            $attribute = new Attribute($offset);
+            $factory = $this->getFactory();
+            $attribute = $factory->create($offset);
             $this->add($attribute);
         }
 
