@@ -9,33 +9,49 @@ Indigo HTML tries to simplify HTML element manipulation. It does not work with
 DOMElement but provides an API of its own. It also provides integration with
 [Zend View](https://docs.zendframework.com/zend-view/) in the form of view helpers.
 
-## Instalation
+## Installation
 
 ```
 composer require hipnaba/indigo-html dev-master
 ```
 
-## Elements
+## Usage
 
-### [Element](src/Element.php)
+```php
+<?php
+// Creating elements
+$link = new \Indigo\Html\Element\Element('a', [
+    'class' => 'link',
+]);
 
-- A generic HTML element.
+// Settings attributes
+$link->setAttribute('href', '#');
 
-### Custom elements
+// Working with css classes
+$link->addClass('link-default');
 
-1. Implement [ElementInterface](src/ElementInterface.php) or extend 
-[Element](src/Element.php).
+// Setting content
+$link->setContent('This is a link!');
 
-## View helpers
+// Nesting elements
+$item = new \Indigo\Html\Element\Element('li');
+$item->append($link);
 
-- Plugin manager configuration provided by [Module](src/Module.php).
+$list = new \Indigo\Html\Element\Element('ul', [
+    'id' => 'menu',
+]);
+$list->append($item);
 
-### [htmlElement](src/Helper/HtmlElement.php)
+// Rendering elements using the helper
+echo $this->htmlElement($list);
+```
 
-- Renders a generic HTML element.
+The above example would render something like this:
 
-### Custom view helpers
-
-1. Extend [AbstractHelper](src/Helper/AbstractHelper.php) or 
-[HtmlElement](src/Helper/HtmlElement.php).
-2. Register your helper with the plugin manager.
+```html
+<ul id="menu">
+    <li>
+        <a class="link link-default" href="#">This is a link!</a>
+    </li>
+</ul>
+```
