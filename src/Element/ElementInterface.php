@@ -615,7 +615,9 @@ interface ElementInterface extends
             'pattern',
             'placeholder',
             'readonly',
-            'required',
+            'required' => [
+                'type' => 'boolean',
+            ],
             'selectionDirection',
             'selectionEnd',
             'selectionStart',

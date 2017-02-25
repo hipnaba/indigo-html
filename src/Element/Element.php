@@ -3,6 +3,7 @@ namespace Indigo\Html\Element;
 
 use Indigo\Html\Exception;
 use Zend\Stdlib\ArrayObject;
+use Zend\Stdlib\ArrayUtils;
 
 /**
  * A HTML Element.
@@ -55,8 +56,6 @@ class Element implements ElementInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @return string
      */
     public function getTag()
     {
@@ -65,9 +64,6 @@ class Element implements ElementInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @param  string $tag The element's tag name.
-     * @return void
      */
     public function setTag($tag)
     {
@@ -83,11 +79,47 @@ class Element implements ElementInterface
     }
 
     /**
+     * Returns all attribute data for this tag.
+     *
+     * @param null $attribute
+     * @return array
+     */
+    protected function getAttributeMetadata($attribute = null)
+    {
+        $attributes = static::GLOBAL_ATTRIBUTES;
+
+        if (array_key_exists($this->tag, static::TAG_ATTRIBUTES)) {
+            $attributes = ArrayUtils::merge($attributes, static::TAG_ATTRIBUTES[$this->tag]);
+        }
+
+        if (null === $attribute) {
+            return $attributes;
+        }
+
+        if (preg_match('/(data|aria)-.+/', $attribute)) {
+            return ['type' => 'mixed'];
+        } elseif (array_key_exists($attribute, $attributes)) {
+            return $attributes[$attribute];
+        } elseif (in_array($attribute, $attributes)) {
+            return ['type' => 'string'];
+        }
+
+        throw new Exception\InvalidAttributeNameException(
+            sprintf("%s is not a valid HTML attribute", $attribute)
+        );
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function hasAttribute($name)
     {
-        return array_key_exists($name, $this->attributes);
+        $attributes = $this->getAttributeMetadata();
+
+        return
+            in_array($name, $attributes) ||
+            array_key_exists($name, $attributes) ||
+            array_key_exists($name, $this->attributes);
     }
 
     /**
@@ -95,11 +127,15 @@ class Element implements ElementInterface
      */
     public function getAttribute($name)
     {
-        if (isset($this->attributes[$name])) {
-            return $this->attributes[$name];
-        }
+        $attribute = $this->getAttributeMetadata($name);
 
-        return null;
+        switch ($attribute['type']) {
+            case 'boolean':
+                return array_key_exists($name, $this->attributes);
+            case 'string':
+            default:
+                return array_key_exists($name, $this->attributes) ? $this->attributes[$name] : null;
+        }
     }
 
     /**
@@ -107,27 +143,7 @@ class Element implements ElementInterface
      */
     public function setAttribute($name, $value)
     {
-        $tag = $this->getTag();
-
-        if (0 === strpos($name, 'data-')) {
-            $attribute = ['type' => 'mixed'];
-        } elseif (0 === strpos($name, 'aria-')) {
-            $attribute = ['type' => 'aria'];
-        } elseif (array_key_exists($tag, self::TAG_ATTRIBUTES) && in_array($name, self::TAG_ATTRIBUTES[$tag])) {
-            $attribute = ['type' => 'string'];
-        } elseif (array_key_exists($tag, self::TAG_ATTRIBUTES) && array_key_exists($name, self::TAG_ATTRIBUTES[$tag])) {
-            $attribute = self::TAG_ATTRIBUTES[$tag][$name];
-        } elseif (in_array($name, self::GLOBAL_ATTRIBUTES)) {
-            $attribute = ['type' => 'string'];
-        } elseif (array_key_exists($name, self::GLOBAL_ATTRIBUTES)) {
-            $attribute = self::GLOBAL_ATTRIBUTES[$name];
-        }
-
-        if (!isset($attribute)) {
-            throw new Exception\InvalidAttributeNameException(
-                sprintf("%s is not a valid HTML attribute", $name)
-            );
-        }
+        $attribute = $this->getAttributeMetadata($name);
 
         switch ($attribute['type']) {
             case 'boolean':
@@ -144,8 +160,6 @@ class Element implements ElementInterface
                         sprintf("Invalid attribute value for '%s', must be integer", $name)
                     );
                 }
-
-                $value = intval($value);
                 break;
             case 'enum':
                 if (isset($attribute['convert']) && isset($attribute['convert'][$value])) {
