@@ -92,9 +92,8 @@ class ElementTest extends TestCase
      */
     public function testWillThrowExceptionForInvalidEnumValue()
     {
-        new Element('div', [
-            'contenteditable' => 'invalid',
-        ]);
+        $element = new Element('div');
+        $element->setAttribute('contenteditable', 'invalid');
     }
 
     /**
@@ -150,8 +149,7 @@ class ElementTest extends TestCase
         $element = new Element('input');
 
         $this->assertTrue($element->hasAttribute('required'));
-        $this->assertTrue(is_bool($element->getAttribute('required')));
-        $this->assertFalse($element->getAttribute('required'));
+        $this->assertEmpty($element->getAttribute('required'));
 
         $element->setAttribute('required', true);
 

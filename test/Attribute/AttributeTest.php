@@ -20,7 +20,9 @@ class AttributeTest extends TestCase
      */
     public function testIsConfigurable()
     {
-        $attribute = new Attribute('name', 'value');
+        $attribute = new Attribute('name', [
+            'value' => 'value',
+        ]);
 
         $this->assertEquals('name', $attribute->getName());
         $this->assertEquals('value', $attribute->getValue());

@@ -2,6 +2,7 @@
 namespace Indigo\Html\Attribute;
 
 use ArrayAccess;
+use Indigo\Html\Element\ElementInterface;
 
 /**
  * Class AttributeList
@@ -20,11 +21,28 @@ class AttributeList implements ArrayAccess
     protected $attributes = [];
 
     /**
+     * The element this attribute list belongs to.
+     *
+     * @var ElementInterface
+     */
+    protected $element;
+
+    /**
      * Factory used to build attributes
      *
      * @var AttributeFactory
      */
     protected $factory;
+
+    /**
+     * AttributeList constructor.
+     *
+     * @param ElementInterface|null $element The element this list belongs to.
+     */
+    public function __construct(ElementInterface $element = null)
+    {
+        $this->element = $element;
+    }
 
     /**
      * Returns the attribute factory.
@@ -65,6 +83,7 @@ class AttributeList implements ArrayAccess
         $this->attributes[$name] = $attribute;
     }
 
+
     /**
      * Returns true if the attribute with the given name exists in this list
      *
@@ -87,6 +106,44 @@ class AttributeList implements ArrayAccess
     public function get($name)
     {
         return $this->has($name) ? $this->attributes[$name] : null;
+    }
+
+    /**
+     * Sets an attribute value by it's name.
+     *
+     * @param string $name  The attribute name.
+     * @param mixed  $value The new value.
+     *
+     * @return void
+     */
+    public function set($name, $value)
+    {
+        if (!$this->has($name)) {
+            $factory = $this->getFactory();
+            $attribute = $factory->create($name, $this->element);
+            $this->add($attribute);
+        }
+
+        $attribute = $this->get($name);
+
+        if ($attribute instanceof BooleanAttribute && !$value) {
+            $this->remove($name);
+            return;
+        }
+
+        $attribute->setValue($value);
+    }
+
+    /**
+     * Removes an attribute from the list by name.
+     *
+     * @param string $name Attribute name.
+     *
+     * @return void
+     */
+    public function remove($name)
+    {
+        unset($this->attributes[$name]);
     }
 
     /**
@@ -128,14 +185,7 @@ class AttributeList implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        if (!$this->has($offset)) {
-            $factory = $this->getFactory();
-            $attribute = $factory->create($offset);
-            $this->add($attribute);
-        }
-
-        $attribute = $this->get($offset);
-        $attribute->setValue($value);
+        $this->set($offset, $value);
     }
 
     /**
@@ -147,6 +197,6 @@ class AttributeList implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->attributes[$offset]);
+        $this->remove($offset);
     }
 }

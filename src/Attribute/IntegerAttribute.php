@@ -4,30 +4,26 @@ namespace Indigo\Html\Attribute;
 use Indigo\Html\Exception;
 
 /**
- * String Attribute
+ * Class IntegerAttribute
  *
  * @package Indigo\Html\Attribute
  * @author  Danijel Fabijan <hipnaba@gmail.com>
  * @link    https://github.com/hipnaba/indigo-html
  */
-class StringAttribute extends Attribute
+class IntegerAttribute extends Attribute
 {
     /**
      * {@inheritdoc}
      *
-     * @param mixed $value The new value.
+     * @param mixed $value The new value
      *
      * @return void
      */
     public function setValue($value)
     {
-        if (is_object($value) && method_exists($value, '__toString')) {
-            $value = $value->__toString();
-        }
-
-        if (!is_scalar($value)) {
+        if (!is_numeric($value)) {
             throw new Exception\InvalidAttributeValueException(
-                "The value must be a string or castable to string"
+                'Invalid attribute value, must be an integer'
             );
         }
 

@@ -27,13 +27,24 @@ class Attribute implements AttributeInterface
     /**
      * Attribute constructor.
      *
-     * @param string     $name  Attribute name
-     * @param mixed|null $value Attribute value
+     * @param string $name    Attribute name.
+     * @param array  $options {
+     *     Attribute options.
+     *
+     *     @type mixed $value Default attribute value
+     * }
      */
-    public function __construct($name, $value = null)
+    public function __construct($name, array $options = [])
     {
         $this->name = $name;
-        $this->setValue($value);
+
+        foreach ($options as $name => $value) {
+            $setter = 'set' . ucfirst($name);
+
+            if (method_exists($this, $setter)) {
+                $this->$setter($value);
+            }
+        }
     }
 
     /**

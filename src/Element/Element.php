@@ -51,7 +51,7 @@ class Element implements ElementInterface
      */
     public function __construct($tag, array $attributes = [])
     {
-        $this->attributes = new AttributeList();
+        $this->attributes = new AttributeList($this);
         $this->children = new ArrayObject();
 
         $this->setTag($tag);
@@ -148,15 +148,7 @@ class Element implements ElementInterface
      */
     public function getAttribute($name)
     {
-        $attribute = $this->getAttributeMetadata($name);
-
-        switch ($attribute['type']) {
-            case 'boolean':
-                return $this->attributes->has($name);
-            case 'string':
-            default:
-                return $this->attributes->has($name) ? $this->attributes->get($name)->getValue() : null;
-        }
+        return $this->attributes->has($name) ? $this->attributes->get($name)->getValue() : null;
     }
 
     /**
@@ -169,48 +161,7 @@ class Element implements ElementInterface
      */
     public function setAttribute($name, $value)
     {
-        $attribute = $this->getAttributeMetadata($name);
-
-        switch ($attribute['type']) {
-            case 'boolean':
-                if ($value) {
-                    $value = $name;
-                    break;
-                }
-                $this->removeAttribute($name);
-                return;
-            case 'integer':
-                if (!is_numeric($value)) {
-                    throw new Exception\InvalidAttributeValueException(
-                        sprintf("Invalid attribute value for '%s', must be integer", $name)
-                    );
-                }
-                break;
-            case 'enum':
-                if (isset($attribute['convert']) && isset($attribute['convert'][$value])) {
-                    $value = $attribute['convert'][$value];
-                }
-
-                if (!in_array($value, $attribute['values'])) {
-                    throw new Exception\InvalidAttributeValueException(sprintf(
-                        "Invalid attribute value for '%s', can only be one of %s",
-                        $name,
-                        implode(', ', array_filter($attribute['values']))
-                    ));
-                }
-                break;
-            case 'list':
-                if (is_array($value)) {
-                    $separator = isset($attribute['separator']) ? $attribute['separator'] : ' ';
-                    $value = implode($separator, $value);
-                }
-                break;
-            case 'string':
-            default:
-                $value = (string) $value;
-        }
-
-        $this->attributes[$name] = $value;
+        $this->attributes->set($name, $value);
     }
 
     /**
