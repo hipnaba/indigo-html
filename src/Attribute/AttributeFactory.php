@@ -640,12 +640,6 @@ class AttributeFactory
             ? $this->types[$spec['type']]
             : Attribute::class;
 
-        if (!class_exists($attributeClass)) {
-            throw new \DomainException(
-                sprintf('Invalid attribute class provided for type %s', $spec['type'])
-            );
-        }
-
         /**
          * The created attribute
          *

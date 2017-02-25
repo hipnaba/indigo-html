@@ -1,10 +1,9 @@
 <?php
 namespace Indigo\Html\Element;
 
-use Indigo\Html\Attribute\AttributeList;
+use Indigo\Html\Attribute\AttributeAwareTrait;
 use Indigo\Html\Exception;
 use Zend\Stdlib\ArrayObject;
-use Zend\Stdlib\ArrayUtils;
 
 /**
  * A HTML Element.
@@ -15,19 +14,14 @@ use Zend\Stdlib\ArrayUtils;
  */
 class Element implements ElementInterface
 {
+    use AttributeAwareTrait;
+
     /**
      * Element tag name.
      *
      * @var string
      */
     protected $tag;
-
-    /**
-     * Element attributes.
-     *
-     * @var AttributeList
-     */
-    protected $attributes;
 
     /**
      * Element content.
@@ -51,7 +45,6 @@ class Element implements ElementInterface
      */
     public function __construct($tag, array $attributes = [])
     {
-        $this->attributes = new AttributeList($this);
         $this->children = new ArrayObject();
 
         $this->setTag($tag);
@@ -86,142 +79,6 @@ class Element implements ElementInterface
         }
 
         $this->tag = $tag;
-    }
-
-    /**
-     * Returns all attribute data for this tag or data for a single attribute if the name is passed
-     *
-     * @param string|null $attribute Attribute name for which we're getting the metadata
-     *
-     * @return array
-     *
-     * @SuppressWarnings(PHPMD.StaticAccess)
-     */
-    protected function getAttributeMetadata($attribute = null)
-    {
-        $attributes = static::GLOBAL_ATTRIBUTES;
-
-        if (array_key_exists($this->tag, static::TAG_ATTRIBUTES)) {
-            $attributes = ArrayUtils::merge($attributes, static::TAG_ATTRIBUTES[$this->tag]);
-        }
-
-        if (null === $attribute) {
-            return $attributes;
-        }
-
-        if (preg_match('/(data|aria)-.+/', $attribute)) {
-            return ['type' => 'mixed'];
-        } elseif (array_key_exists($attribute, $attributes)) {
-            return $attributes[$attribute];
-        } elseif (in_array($attribute, $attributes)) {
-            return ['type' => 'string'];
-        }
-
-        throw new Exception\InvalidAttributeNameException(
-            sprintf("%s is not a valid HTML attribute", $attribute)
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @param string $name Attribute name
-     *
-     * @return boolean
-     */
-    public function hasAttribute($name)
-    {
-        $attributes = $this->getAttributeMetadata();
-
-        return
-            in_array($name, $attributes) ||
-            array_key_exists($name, $attributes) ||
-            $this->attributes->has($name);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @param string $name Attribute name
-     *
-     * @return mixed
-     */
-    public function getAttribute($name)
-    {
-        return $this->attributes->has($name) ? $this->attributes->get($name)->getValue() : null;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @param string $name  Attribute name
-     * @param mixed  $value Attribute value
-     *
-     * @return void
-     */
-    public function setAttribute($name, $value)
-    {
-        $this->attributes->set($name, $value);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @return AttributeList
-     */
-    public function getAttributes()
-    {
-        return $this->attributes;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @param array $attributes New element attributes
-     *
-     * @return void
-     */
-    public function setAttributes(array $attributes)
-    {
-        foreach ($attributes as $name => $value) {
-            $this->setAttribute($name, $value);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @param string $name Name of the attribute to be removed
-     *
-     * @return void
-     */
-    public function removeAttribute($name)
-    {
-        unset($this->attributes[$name]);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @param array $names Names of attributes to be removed
-     *
-     * @return void
-     */
-    public function removeAttributes(array $names)
-    {
-        foreach ($names as $name) {
-            $this->removeAttribute($name);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @return void
-     */
-    public function clearAttributes()
-    {
-        $this->attributes = [];
     }
 
     /**

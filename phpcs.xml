@@ -14,6 +14,7 @@
     <exclude name="PEAR.Functions.FunctionCallSignature.ContentAfterOpenBracket"/>
     <exclude name="PEAR.Functions.FunctionCallSignature.CloseBracketLine"/>
     <exclude name="PEAR.Functions.FunctionCallSignature.Indent"/>
+    <exclude name="PEAR.NamingConventions.ValidFunctionName.PrivateNoUnderscore"/>
     <exclude name="PEAR.WhiteSpace.ScopeIndent.IncorrectExact"/>
   </rule>
   <rule ref="PSR2"/>

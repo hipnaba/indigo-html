@@ -112,20 +112,6 @@ class ElementTest extends TestCase
     }
 
     /**
-     * HasAttribute should return true for attributes not set but valid for the element
-     *
-     * @return void
-     */
-    public function testHasAttribute()
-    {
-        $element = new Element('a');
-
-        $this->assertTrue($element->hasAttribute('href'));
-        $this->assertNull($element->getAttribute('href'));
-        $this->assertFalse($element->hasAttribute('invalid attribute'));
-    }
-
-    /**
      * Element will accept any attribute name starting with data-
      *
      * @return void
@@ -147,16 +133,11 @@ class ElementTest extends TestCase
     public function testCanWorkWithBooleanAttributes()
     {
         $element = new Element('input');
-
-        $this->assertTrue($element->hasAttribute('required'));
-        $this->assertEmpty($element->getAttribute('required'));
-
         $element->setAttribute('required', true);
 
         $this->assertArrayHasKey('required', $element->getAttributes());
 
         $element->setAttribute('required', false);
-
         $this->assertArrayNotHasKey('required', $element->getAttributes());
     }
 
