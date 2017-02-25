@@ -14,11 +14,11 @@ use PHPUnit\Framework\TestCase;
 class ElementTest extends TestCase
 {
     /**
-     * Tests the constructor
+     * Element should be configurable via the constructor
      *
      * @return void
      */
-    public function testElementIsInitializedProperly()
+    public function testConfigurable()
     {
         $element = new Element('div', [
             'class' => 'name',
@@ -36,7 +36,7 @@ class ElementTest extends TestCase
      *
      * @return void
      */
-    public function testWiillThrowExceptionForInvalidTagName()
+    public function testWillThrowExceptionForInvalidTagName()
     {
         new Element('invalid');
     }

@@ -1,6 +1,7 @@
 <?php
 namespace Indigo\Html\Element;
 
+use Indigo\Html\Attribute\AttributeList;
 use Indigo\Html\Exception;
 use Zend\Stdlib\ArrayObject;
 use Zend\Stdlib\ArrayUtils;
@@ -24,9 +25,9 @@ class Element implements ElementInterface
     /**
      * Element attributes.
      *
-     * @var array
+     * @var AttributeList
      */
-    protected $attributes = [];
+    protected $attributes;
 
     /**
      * Element content.
@@ -50,10 +51,11 @@ class Element implements ElementInterface
      */
     public function __construct($tag, array $attributes = [])
     {
+        $this->attributes = new AttributeList();
+        $this->children = new ArrayObject();
+
         $this->setTag($tag);
         $this->setAttributes($attributes);
-
-        $this->children = new ArrayObject();
     }
 
     /**
@@ -134,7 +136,7 @@ class Element implements ElementInterface
         return
             in_array($name, $attributes) ||
             array_key_exists($name, $attributes) ||
-            array_key_exists($name, $this->attributes);
+            $this->attributes->has($name);
     }
 
     /**
@@ -150,10 +152,10 @@ class Element implements ElementInterface
 
         switch ($attribute['type']) {
             case 'boolean':
-                return array_key_exists($name, $this->attributes);
+                return $this->attributes->has($name);
             case 'string':
             default:
-                return array_key_exists($name, $this->attributes) ? $this->attributes[$name] : null;
+                return $this->attributes->has($name) ? $this->attributes->get($name)->getValue() : null;
         }
     }
 
@@ -214,7 +216,7 @@ class Element implements ElementInterface
     /**
      * {@inheritdoc}
      *
-     * @return array
+     * @return AttributeList
      */
     public function getAttributes()
     {

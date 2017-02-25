@@ -18,7 +18,7 @@ class AttributeTest extends TestCase
      *
      * @return void
      */
-    public function testConstructor()
+    public function testIsConfigurable()
     {
         $attribute = new Attribute('name', 'value');
 
