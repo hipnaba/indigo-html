@@ -26,6 +26,7 @@
     }
   },
   "require-dev": {
+    "codacy/coverage": "dev-master",
     "phpunit/phpunit": "^6.0",
     "zendframework/zend-modulemanager": "^2.7",
     "zendframework/zend-servicemanager": "^3.2"
