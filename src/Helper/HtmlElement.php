@@ -1,7 +1,7 @@
 <?php
 namespace Indigo\Html\Helper;
 
-use Indigo\Html\ElementInterface;
+use Indigo\Html\Element\ElementInterface;
 
 /**
  * Renders a HTML element.

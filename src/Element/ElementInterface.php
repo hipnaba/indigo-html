@@ -1,5 +1,5 @@
 <?php
-namespace Indigo\Html;
+namespace Indigo\Html\Element;
 
 use Countable;
 use IteratorAggregate;

@@ -1,7 +1,7 @@
 <?php
 namespace IndigoTest\Html;
 
-use Indigo\Html\Element;
+use Indigo\Html\Element\Element;
 use PHPUnit\Framework\TestCase;
 
 class ElementTest extends TestCase

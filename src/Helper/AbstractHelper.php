@@ -1,7 +1,7 @@
 <?php
 namespace Indigo\Html\Helper;
 
-use Indigo\Html\ElementInterface;
+use Indigo\Html\Element\ElementInterface;
 use Zend\Json\Json;
 use Zend\View\Helper\AbstractHelper as BaseAbstractHelper;
 use Zend\View\Helper\EscapeHtml;

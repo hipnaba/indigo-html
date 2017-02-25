@@ -1,6 +1,7 @@
 <?php
-namespace Indigo\Html;
+namespace Indigo\Html\Element;
 
+use Indigo\Html\Exception;
 use Zend\Stdlib\ArrayObject;
 
 /**

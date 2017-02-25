@@ -1,7 +1,7 @@
 <?php
 namespace IndigoTest\Html\Helper;
 
-use Indigo\Html\Element;
+use Indigo\Html\Element\Element;
 use Indigo\Html\Helper\AbstractHelper;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
