@@ -99,20 +99,6 @@ trait AttributeAwareTrait
     }
 
     /**
-     * Returns the internal attribute list.
-     *
-     * @return AttributeInterface[]|AttributeList
-     */
-    private function getAttributeList()
-    {
-        if (null === $this->attributes) {
-            $this->attributes = new AttributeList($this);
-        }
-
-        return $this->attributes;
-    }
-
-    /**
      * Remove an element's attribute.
      *
      * @param string $name Name of the attribute to be removed
@@ -147,5 +133,19 @@ trait AttributeAwareTrait
     public function clearAttributes()
     {
         $this->attributes = new AttributeList($this);
+    }
+
+    /**
+     * Returns the internal attribute list.
+     *
+     * @return AttributeInterface[]|AttributeList
+     */
+    protected function getAttributeList()
+    {
+        if (null === $this->attributes) {
+            $this->attributes = new AttributeList($this);
+        }
+
+        return $this->attributes;
     }
 }

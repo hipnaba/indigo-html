@@ -3,6 +3,7 @@ namespace Indigo\Html\Element;
 
 use Countable;
 use Indigo\Html\Attribute\AttributeAwareInterface;
+use Indigo\Html\Attribute\CssClassAwareInterface;
 use IteratorAggregate;
 
 /**
@@ -15,7 +16,8 @@ use IteratorAggregate;
 interface ElementInterface extends
     Countable,
     IteratorAggregate,
-    AttributeAwareInterface
+    AttributeAwareInterface,
+    CssClassAwareInterface
 {
     /**
      * All HTML tag names

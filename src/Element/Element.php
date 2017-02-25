@@ -2,6 +2,7 @@
 namespace Indigo\Html\Element;
 
 use Indigo\Html\Attribute\AttributeAwareTrait;
+use Indigo\Html\Attribute\CssClassAwareTrait;
 use Indigo\Html\Exception;
 use Zend\Stdlib\ArrayObject;
 
@@ -15,6 +16,7 @@ use Zend\Stdlib\ArrayObject;
 class Element implements ElementInterface
 {
     use AttributeAwareTrait;
+    use CssClassAwareTrait;
 
     /**
      * Element tag name.
