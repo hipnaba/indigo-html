@@ -5,4 +5,5 @@ use InvalidArgumentException;
 
 class InvalidTagNameException extends InvalidArgumentException
 {
+
 }

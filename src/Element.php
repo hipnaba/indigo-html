@@ -10,20 +10,39 @@ use Zend\Stdlib\ArrayObject;
  */
 class Element implements ElementInterface
 {
-    /** @var string */
+    /**
+     * Element tag name.
+     *
+     * @var string
+     */
     protected $tag;
-    /** @var array */
+
+    /**
+     * Element attributes.
+     *
+     * @var array
+     */
     protected $attributes = [];
-    /** @var string */
+
+    /**
+     * Element content.
+     *
+     * @var string
+     */
     protected $content;
-    /** @var ElementInterface[] */
+
+    /**
+     * Child elements.
+     *
+     * @var ElementInterface[]
+     */
     protected $children;
 
     /**
      * Element constructor.
      *
-     * @param string $tag
-     * @param array $attributes
+     * @param string $tag        The element's tag name
+     * @param array  $attributes The element's attributes
      */
     public function __construct($tag, array $attributes = [])
     {
@@ -35,6 +54,8 @@ class Element implements ElementInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return string
      */
     public function getTag()
     {
@@ -43,6 +64,9 @@ class Element implements ElementInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @param  string $tag The element's tag name.
+     * @return void
      */
     public function setTag($tag)
     {
@@ -86,15 +110,15 @@ class Element implements ElementInterface
 
         if (0 === strpos($name, 'data-')) {
             $attribute = ['type' => 'mixed'];
-        } else if (0 === strpos($name, 'aria-')) {
+        } elseif (0 === strpos($name, 'aria-')) {
             $attribute = ['type' => 'aria'];
-        } else if (array_key_exists($tag, self::TAG_ATTRIBUTES) && in_array($name, self::TAG_ATTRIBUTES[$tag])) {
+        } elseif (array_key_exists($tag, self::TAG_ATTRIBUTES) && in_array($name, self::TAG_ATTRIBUTES[$tag])) {
             $attribute = ['type' => 'string'];
-        } else if (array_key_exists($tag, self::TAG_ATTRIBUTES) && array_key_exists($name, self::TAG_ATTRIBUTES[$tag])) {
+        } elseif (array_key_exists($tag, self::TAG_ATTRIBUTES) && array_key_exists($name, self::TAG_ATTRIBUTES[$tag])) {
             $attribute = self::TAG_ATTRIBUTES[$tag][$name];
-        } else if (in_array($name, self::GLOBAL_ATTRIBUTES)) {
+        } elseif (in_array($name, self::GLOBAL_ATTRIBUTES)) {
             $attribute = ['type' => 'string'];
-        } else if (array_key_exists($name, self::GLOBAL_ATTRIBUTES)) {
+        } elseif (array_key_exists($name, self::GLOBAL_ATTRIBUTES)) {
             $attribute = self::GLOBAL_ATTRIBUTES[$name];
         }
 
@@ -128,9 +152,11 @@ class Element implements ElementInterface
                 }
 
                 if (!in_array($value, $attribute['values'])) {
-                    throw new Exception\InvalidAttributeValueException(
-                        sprintf("Invalid attribute value for '%s', can only be one of %s", $name, implode(', ', array_filter($attribute['values'])))
-                    );
+                    throw new Exception\InvalidAttributeValueException(sprintf(
+                        "Invalid attribute value for '%s', can only be one of %s",
+                        $name,
+                        implode(', ', array_filter($attribute['values']))
+                    ));
                 }
                 break;
             case 'list':
