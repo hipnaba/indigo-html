@@ -49,25 +49,13 @@ class AttributeList implements ArrayAccess
      *
      * @return AttributeFactory
      */
-    public function getFactory()
+    protected function getFactory()
     {
         if (null === $this->factory) {
             $this->factory = new AttributeFactory();
         }
 
         return $this->factory;
-    }
-
-    /**
-     * Sets the attribute factory.
-     *
-     * @param AttributeFactory $factory The factory to use.
-     *
-     * @return void
-     */
-    public function setFactory(AttributeFactory $factory)
-    {
-        $this->factory = $factory;
     }
 
     /**
