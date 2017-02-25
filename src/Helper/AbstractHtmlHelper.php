@@ -1,8 +1,8 @@
 <?php
 namespace Indigo\Html\Helper;
 
+use Indigo\Html\Attribute\AttributeInterface;
 use Indigo\Html\Element\ElementInterface;
-use Zend\Json\Json;
 use Zend\View\Helper\AbstractHelper as BaseAbstractHelper;
 use Zend\View\Helper\EscapeHtml;
 use Zend\View\Helper\EscapeHtmlAttr;
@@ -81,14 +81,18 @@ abstract class AbstractHtmlHelper extends BaseAbstractHelper
     /**
      * Renders the HTML attributes string.
      *
-     * @param array $attributes Attributes to render
+     * @param AttributeInterface[] $attributes Attributes to render
      *
      * @return string
      *
      * @SuppressWarnings(PHPMD.StaticAccess)
      */
-    protected function getAttributeString(array $attributes)
+    protected function getAttributeString($attributes)
     {
+        if (0 === count($attributes)) {
+            return '';
+        }
+
         /**
          * HTML escaper
          *
@@ -105,12 +109,11 @@ abstract class AbstractHtmlHelper extends BaseAbstractHelper
 
         $rendered = [];
 
-        foreach ($attributes as $name => $value) {
-            if (!is_scalar($value)) {
-                $value = Json::encode($value);
-            }
+        foreach ($attributes as $attribute) {
+            $name = $escapeHtml($attribute->getName());
+            $value = $escapeHtmlAttr($attribute->getValue());
 
-            $rendered[] = sprintf('%s="%s"', $escapeHtml($name), $escapeHtmlAttr($value));
+            $rendered[] = sprintf('%s="%s"', $name, $value);
         }
 
         return implode(' ', $rendered);

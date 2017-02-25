@@ -4,6 +4,9 @@ namespace Indigo\Html\Attribute;
 use ArrayAccess;
 use Countable;
 use Indigo\Html\Element\ElementInterface;
+use IteratorAggregate;
+use Traversable;
+use Zend\Stdlib\ArrayObject;
 
 /**
  * Class AttributeList
@@ -14,14 +17,15 @@ use Indigo\Html\Element\ElementInterface;
  */
 class AttributeList implements
     ArrayAccess,
-    Countable
+    Countable,
+    IteratorAggregate
 {
     /**
      * Attributes stored in this list
      *
      * @var AttributeInterface[]
      */
-    protected $attributes = [];
+    protected $attributes;
 
     /**
      * The element this attribute list belongs to.
@@ -44,6 +48,7 @@ class AttributeList implements
      */
     public function __construct(ElementInterface $element = null)
     {
+        $this->attributes = [];
         $this->element = $element;
     }
 
@@ -199,5 +204,15 @@ class AttributeList implements
     public function count()
     {
         return count($this->attributes);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return AttributeInterface[]|Traversable
+     */
+    public function getIterator()
+    {
+        return new ArrayObject($this->attributes);
     }
 }

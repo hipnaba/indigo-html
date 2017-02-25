@@ -72,6 +72,7 @@ class AbstractHtmlHelperTest extends TestCase
             ->method('render')
             ->with($this->equalTo($element));
 
-        $this->helper->render($element);
+        $helper = $this->helper;
+        $helper($element);
     }
 }

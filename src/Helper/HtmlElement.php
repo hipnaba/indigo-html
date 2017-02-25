@@ -18,8 +18,6 @@ class HtmlElement extends AbstractHtmlHelper
      * @param ElementInterface $element Element to render
      *
      * @return string
-     *
-     * @SuppressWarnings(PHPMD.ElseExpression)
      */
     public function render(ElementInterface $element)
     {
@@ -29,18 +27,18 @@ class HtmlElement extends AbstractHtmlHelper
         $attributeString = $this->getAttributeString($attributes);
 
         $rendered = sprintf('<%s%s>', $tag, $attributeString ? ' ' . $attributeString : '');
+        $content = '';
 
-        if (count($element)) {
-            $rendered .= "\n";
+        if (count($element) > 0) {
+            $content .= "\n";
 
             foreach ($element as $child) {
-                $rendered .= '    ' . $this->render($child) . "\n";
+                $content .= '    ' . $this->render($child) . "\n";
             }
-        } else {
-            $rendered .= $element->getContent();
         }
 
         if ($this->hasEndTag($element)) {
+            $rendered .= $content ?: $element->getContent();
             $rendered .= sprintf('</%s>', $tag);
         }
 
