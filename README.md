@@ -1,7 +1,13 @@
 # Indigo HTML
 
-- A HTML abstraction layer.
+- An HTML abstraction layer.
 - Rendering powered by [Zend View](https://docs.zendframework.com/zend-view/).
+
+## Instalation
+
+```
+composer require hipnaba/indigo-html dev-master
+```
 
 ## Elements
 
