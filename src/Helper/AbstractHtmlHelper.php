@@ -84,6 +84,8 @@ abstract class AbstractHtmlHelper extends BaseAbstractHelper
      * @param array $attributes Attributes to render
      *
      * @return string
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess)
      */
     protected function getAttributeString(array $attributes)
     {

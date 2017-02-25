@@ -18,6 +18,8 @@ class HtmlElement extends AbstractHtmlHelper
      * @param ElementInterface $element Element to render
      *
      * @return string
+     *
+     * @SuppressWarnings(PHPMD.ElseExpression)
      */
     public function render(ElementInterface $element)
     {

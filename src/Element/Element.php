@@ -92,6 +92,8 @@ class Element implements ElementInterface
      * @param string|null $attribute Attribute name for which we're getting the metadata
      *
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess)
      */
     protected function getAttributeMetadata($attribute = null)
     {
@@ -171,11 +173,10 @@ class Element implements ElementInterface
             case 'boolean':
                 if ($value) {
                     $value = $name;
-                } else {
-                    $this->removeAttribute($name);
-                    return;
+                    break;
                 }
-                break;
+                $this->removeAttribute($name);
+                return;
             case 'integer':
                 if (!is_numeric($value)) {
                     throw new Exception\InvalidAttributeValueException(
