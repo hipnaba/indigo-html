@@ -97,11 +97,11 @@ class HtmlElementTest extends TestCase
      */
     public function testCanRenderElementWithChildren()
     {
-        $p = new Element('p');
-        $p->setContent('content');
+        $child = new Element('p');
+        $child->setContent('content');
 
         $element = new Element('div');
-        $element->append($p);
+        $element->append($child);
 
         $this->assertCount(1, $element);
 
