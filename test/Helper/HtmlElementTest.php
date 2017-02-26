@@ -1,7 +1,7 @@
 <?php
 namespace IndigoTest\Html\Element;
 
-use Indigo\Html\Element\Element;
+use Indigo\Html\Element;
 use Indigo\Html\Element\RenderableWrapper;
 use Indigo\Html\Helper\HtmlElement;
 use Indigo\Html\Module;

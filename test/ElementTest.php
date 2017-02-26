@@ -1,7 +1,7 @@
 <?php
-namespace IndigoTest\Html\Element;
+namespace IndigoTest\Html;
 
-use Indigo\Html\Element\Element;
+use Indigo\Html\Element;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -30,6 +30,33 @@ class ElementTest extends TestCase
     }
 
     /**
+     * Elements should be able to set tag specific attributes
+     *
+     * @return void
+     */
+    public function testCanSetTagSpecificAttributes()
+    {
+        $element = new Element('base');
+        $element->setAttribute('href', 'value');
+
+        $this->assertEquals('value', $element->getAttribute('href'));
+    }
+
+    /**
+     * Elements should be able to set tag specific attributes via constructor
+     *
+     * @return void
+     */
+    public function testCanSetTagSpecificAttributesViaConstructor()
+    {
+        $element = new Element('base', [
+            'href' => 'value',
+        ]);
+
+        $this->assertEquals('value', $element->getAttribute('href'));
+    }
+
+    /**
      * Elements should not accept invalid tag names
      *
      * @expectedException \Indigo\Html\Exception\InvalidTagNameException
@@ -39,20 +66,6 @@ class ElementTest extends TestCase
     public function testWillThrowExceptionForInvalidTagName()
     {
         new Element('invalid');
-    }
-
-    /**
-     * Tags must define their own attributes
-     *
-     * @return void
-     */
-    public function testWillAcceptElementSpecificAttributes()
-    {
-        $element = new Element('base', [
-            'href' => 'value',
-        ]);
-
-        $this->assertEquals('value', $element->getAttribute('href'));
     }
 
     /**

@@ -15,10 +15,11 @@
     "email": "hipnaba@gmail.com"
   },
   "require": {
+    "hipnaba/indigo-view": "dev-master",
+
     "zendframework/zend-escaper": "^2.5",
     "zendframework/zend-json": "^3.0",
-    "zendframework/zend-stdlib": "^3.1",
-    "zendframework/zend-view": "^2.8"
+    "zendframework/zend-stdlib": "^3.1"
   },
   "autoload": {
     "psr-4": {

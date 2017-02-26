@@ -1,8 +1,8 @@
 <?php
 namespace Indigo\Html\Helper;
 
-use Indigo\Html\Element\ElementInterface;
-use Indigo\Html\Element\RenderableInterface;
+use Indigo\Html\Element\RenderableWrapper;
+use Indigo\Html\ElementInterface;
 
 /**
  * Renders a HTML element.
@@ -29,8 +29,8 @@ class HtmlElement extends AbstractHtmlHelper
             $content .= "\n";
 
             foreach ($element->getChildren() as $child) {
-                if ($child instanceof RenderableInterface) {
-                    $helper = $child->getHelper();
+                if ($child instanceof RenderableWrapper) {
+                    $helper = $child->getHelperPlugin();
 
                     if (is_string($helper)) {
                         $helper = $this->getView()->plugin($helper);
@@ -40,13 +40,13 @@ class HtmlElement extends AbstractHtmlHelper
                         throw new \DomainException(
                             sprintf(
                                 "Can't render %s, helper %s isn't callable",
-                                get_class($child->getElement()),
+                                get_class($child->getObject()),
                                 $helper
                             )
                         );
                     }
 
-                    $content .= '    ' . $helper($child->getElement()) . "\n";
+                    $content .= '    ' . $helper($child->getObject()) . "\n";
                     continue;
                 }
 

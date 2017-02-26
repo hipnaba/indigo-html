@@ -1,6 +1,9 @@
 <?php
 namespace Indigo\Html\Element;
 
+use Indigo\Html\Element;
+use Indigo\View\RenderableInterface;
+
 /**
  * Enables adding any kind of object to HTML element as long as they can be rendered.
  *
@@ -15,27 +18,27 @@ class RenderableWrapper extends Element implements RenderableInterface
      *
      * @var mixed
      */
-    protected $element;
+    protected $object;
 
     /**
      * The helper to be used to render the object.
      *
      * @var mixed
      */
-    protected $helper;
+    protected $helperPlugin;
 
     /**
      * RenderableWrapper constructor.
      *
-     * @param mixed $element Object to render.
-     * @param mixed $helper  Helper to render the object with.
+     * @param mixed $object Object to render.
+     * @param mixed $helper Helper to render the object with.
      */
-    public function __construct($element, $helper)
+    public function __construct($object, $helper)
     {
         parent::__construct('div');
 
-        $this->element = $element;
-        $this->helper = $helper;
+        $this->object = $object;
+        $this->helperPlugin = $helper;
     }
 
     /**
@@ -43,42 +46,18 @@ class RenderableWrapper extends Element implements RenderableInterface
      *
      * @return mixed
      */
-    public function getElement()
+    public function getObject()
     {
-        return $this->element;
+        return $this->object;
     }
 
     /**
-     * Set the object to be rendered.
-     *
-     * @param mixed $element The object to be rendered.
-     *
-     * @return void
-     */
-    public function setElement($element)
-    {
-        $this->element = $element;
-    }
-
-    /**
-     * Returns the helper to be used to render the object.
+     * {@inheritdoc}
      *
      * @return mixed
      */
-    public function getHelper()
+    public function getHelperPlugin()
     {
-        return $this->helper;
-    }
-
-    /**
-     * Sets the helper to be used to render the object.
-     *
-     * @param string $helper The helper.
-     *
-     * @return void
-     */
-    public function setHelper($helper)
-    {
-        $this->helper = $helper;
+        return $this->helperPlugin;
     }
 }

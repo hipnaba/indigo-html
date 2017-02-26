@@ -2,7 +2,7 @@
 namespace IndigoTest\Html\Attribute;
 
 use Indigo\Html\Attribute\AttributeList;
-use Indigo\Html\Element\Element;
+use Indigo\Html\Element;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -44,5 +44,20 @@ class AttributeListTest extends TestCase
         $attributes = new AttributeList();
 
         $this->assertNull($attributes['id']);
+    }
+
+    /**
+     * The list will allow tag specific attributes if the element is set.
+     *
+     * @return void
+     */
+    public function testCanCreateTagSpecificAttributes()
+    {
+        $element = new Element('base');
+        $list = new AttributeList($element);
+
+        $list->set('href',  'value');
+
+        $this->assertEquals('value', $list->get('href')->getValue());
     }
 }

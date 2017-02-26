@@ -1,7 +1,7 @@
 <?php
 namespace IndigoTest\Html\Attribute;
 
-use Indigo\Html\Element\Element;
+use Indigo\Html\Element;
 use PHPUnit\Framework\TestCase;
 
 /**

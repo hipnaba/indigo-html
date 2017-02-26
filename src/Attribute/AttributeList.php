@@ -3,7 +3,7 @@ namespace Indigo\Html\Attribute;
 
 use ArrayAccess;
 use Countable;
-use Indigo\Html\Element\ElementInterface;
+use Indigo\Html\ElementInterface;
 use IteratorAggregate;
 use Traversable;
 use Zend\Stdlib\ArrayObject;

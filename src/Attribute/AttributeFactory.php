@@ -1,7 +1,7 @@
 <?php
 namespace Indigo\Html\Attribute;
 
-use Indigo\Html\Element\ElementInterface;
+use Indigo\Html\ElementInterface;
 use Indigo\Html\Exception;
 
 /**

@@ -4,6 +4,7 @@ namespace IndigoTest\Html\Attribute;
 use Indigo\Html\Attribute\AttributeFactory;
 use Indigo\Html\Attribute\AttributeInterface;
 use Indigo\Html\Attribute\StringAttribute;
+use Indigo\Html\Element;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -73,5 +74,20 @@ class AttributeFactoryTest extends TestCase
 
         $this->assertInstanceOf(AttributeInterface::class, $data);
         $this->assertInstanceOf(AttributeInterface::class, $aria);
+    }
+
+    /**
+     * The factory will validate against the provided elements attribute list.
+     *
+     * @return void
+     */
+    public function testCanCreateTagSpecificAttributes()
+    {
+        $factory = new AttributeFactory();
+        $element = new Element('base');
+
+        $attribute = $factory->create('href', $element);
+
+        $this->assertNotNull($attribute);
     }
 }

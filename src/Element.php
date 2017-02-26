@@ -1,5 +1,5 @@
 <?php
-namespace Indigo\Html\Element;
+namespace Indigo\Html;
 
 use Indigo\Html\Attribute\AttributeAwareTrait;
 use Indigo\Html\Attribute\CssClassAwareTrait;

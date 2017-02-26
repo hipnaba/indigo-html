@@ -2,7 +2,8 @@
 namespace Indigo\Html\Helper;
 
 use Indigo\Html\Attribute\AttributeInterface;
-use Indigo\Html\Element\ElementInterface;
+use Indigo\Html\ElementInterface;
+use Indigo\Html\ViewHelpers;
 use Zend\View\Helper\AbstractHelper as BaseAbstractHelper;
 use Zend\View\Helper\EscapeHtml;
 use Zend\View\Helper\EscapeHtmlAttr;
@@ -15,7 +16,7 @@ use Zend\View\Renderer\PhpRenderer;
  * @author  Danijel Fabijan <hipnaba@gmail.com>
  * @link    https://github.com/hipnaba/indigo-html
  *
- * @method PhpRenderer getView()
+ * @method PhpRenderer|ViewHelpers getView()
  */
 abstract class AbstractHtmlHelper extends BaseAbstractHelper
 {

@@ -1,5 +1,5 @@
 <?php
-namespace Indigo\Html\Element;
+namespace Indigo\Html;
 
 use Countable;
 use Indigo\Html\Attribute\AttributeAwareInterface;
