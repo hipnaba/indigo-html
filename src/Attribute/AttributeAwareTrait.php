@@ -80,7 +80,7 @@ trait AttributeAwareTrait
      *
      * @return void
      */
-    public function setAttributes(array $attributes)
+    public function setAttributes($attributes)
     {
         foreach ($attributes as $name => $value) {
             $this->setAttribute($name, $value);
@@ -94,7 +94,7 @@ trait AttributeAwareTrait
      *
      * @return void
      */
-    public function replaceAttributes(array $attributes)
+    public function replaceAttributes($attributes)
     {
         $this->clearAttributes();
         $this->setAttributes($attributes);

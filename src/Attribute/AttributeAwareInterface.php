@@ -52,7 +52,7 @@ interface AttributeAwareInterface
      *
      * @return void
      */
-    public function setAttributes(array $attributes);
+    public function setAttributes($attributes);
 
     /**
      * Replaces element attributes with new ones.
@@ -61,7 +61,7 @@ interface AttributeAwareInterface
      *
      * @return void
      */
-    public function replaceAttributes(array $attributes);
+    public function replaceAttributes($attributes);
 
     /**
      * Remove an element's attribute.
