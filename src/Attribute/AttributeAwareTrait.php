@@ -17,7 +17,7 @@ trait AttributeAwareTrait
      *
      * @var AttributeInterface[]|AttributeList
      */
-    protected $attributes;
+    protected $attributeList;
 
     /**
      * Returns true if the element has an attribute.
@@ -134,7 +134,7 @@ trait AttributeAwareTrait
      */
     public function clearAttributes()
     {
-        $this->attributes = null;
+        $this->attributeList = null;
     }
 
     /**
@@ -144,12 +144,12 @@ trait AttributeAwareTrait
      */
     protected function getAttributeList()
     {
-        if (null === $this->attributes) {
-            $this->attributes = new AttributeList(
+        if (null === $this->attributeList) {
+            $this->attributeList = new AttributeList(
                 $this instanceof ElementInterface ? $this : null
             );
         }
 
-        return $this->attributes;
+        return $this->attributeList;
     }
 }
