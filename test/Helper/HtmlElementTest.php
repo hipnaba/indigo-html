@@ -97,18 +97,32 @@ class HtmlElementTest extends TestCase
      */
     public function testCanRenderElementWithChildren()
     {
+        $content = new Element('strong');
+        $content->setContent('content');
+
         $child = new Element('p');
-        $child->setContent('content');
+        $child->append($content);
 
         $element = new Element('div');
+
+        $element->append($child);
+        $element->append($child);
         $element->append($child);
 
-        $this->assertCount(1, $element);
+        $this->assertCount(3, $element);
 
         $rendered = $this->helper->render($element);
         $expected = <<< EOS
 <div>
-    <p>content</p>
+    <p>
+    <strong>content</strong>
+</p>
+    <p>
+    <strong>content</strong>
+</p>
+    <p>
+    <strong>content</strong>
+</p>
 </div>
 EOS;
 
