@@ -27,7 +27,7 @@ class HtmlElement extends AbstractHtmlHelper
         if (count($element) > 0) {
             $content .= "\n";
 
-            foreach ($element as $child) {
+            foreach ($element->getChildren() as $child) {
                 $content .= '    ' . $this->render($child) . "\n";
             }
         }
