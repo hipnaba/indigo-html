@@ -2,6 +2,7 @@
 namespace IndigoTest\Html\Element;
 
 use Indigo\Html\Element\Element;
+use Indigo\Html\Element\RenderableWrapper;
 use Indigo\Html\Helper\HtmlElement;
 use Indigo\Html\Module;
 use PHPUnit\Framework\TestCase;
@@ -123,6 +124,34 @@ class HtmlElementTest extends TestCase
     <p>
     <strong>content</strong>
 </p>
+</div>
+EOS;
+
+        $this->assertEquals($expected, $rendered);
+    }
+
+    /**
+     * The helper will delegate rendering to other helpers if element implements RenderableInterface
+     *
+     * @return void
+     */
+    public function testWillDelegateRenderingForRenderableElements()
+    {
+        $object = ['key' => 'value'];
+        $helper = function ($object) {
+            return $object['key'];
+        };
+
+        $wrapper = new RenderableWrapper($object, $helper);
+
+        $element = new Element('div');
+        $element->append($wrapper);
+
+
+        $rendered = $this->helper->render($element);
+        $expected = <<< EOS
+<div>
+    value
 </div>
 EOS;
 

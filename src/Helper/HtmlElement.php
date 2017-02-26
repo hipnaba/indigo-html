@@ -2,6 +2,7 @@
 namespace Indigo\Html\Helper;
 
 use Indigo\Html\Element\ElementInterface;
+use Indigo\Html\Element\RenderableInterface;
 
 /**
  * Renders a HTML element.
@@ -28,6 +29,27 @@ class HtmlElement extends AbstractHtmlHelper
             $content .= "\n";
 
             foreach ($element->getChildren() as $child) {
+                if ($child instanceof RenderableInterface) {
+                    $helper = $child->getHelper();
+
+                    if (is_string($helper)) {
+                        $helper = $this->getView()->plugin($helper);
+                    }
+
+                    if (!is_callable($helper)) {
+                        throw new \DomainException(
+                            sprintf(
+                                "Can't render %s, helper %s isn't callable",
+                                get_class($child->getElement()),
+                                $helper
+                            )
+                        );
+                    }
+
+                    $content .= '    ' . $helper($child->getElement()) . "\n";
+                    continue;
+                }
+
                 $content .= '    ' . $this->render($child) . "\n";
             }
         }
