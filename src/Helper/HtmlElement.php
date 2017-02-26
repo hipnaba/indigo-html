@@ -21,12 +21,7 @@ class HtmlElement extends AbstractHtmlHelper
      */
     public function render(ElementInterface $element)
     {
-        $tag = $element->getTag();
-
-        $attributes = $element->getAttributes();
-        $attributeString = $this->getAttributeString($attributes);
-
-        $rendered = sprintf('<%s%s>', $tag, $attributeString ? ' ' . $attributeString : '');
+        $rendered = $this->openTag($element);
         $content = '';
 
         if (count($element) > 0) {
@@ -39,9 +34,28 @@ class HtmlElement extends AbstractHtmlHelper
 
         if ($this->hasEndTag($element)) {
             $rendered .= $content ?: $element->getContent();
-            $rendered .= sprintf('</%s>', $tag);
+            $rendered .= sprintf('</%s>', $element->getTag());
         }
 
         return $rendered;
+    }
+
+    /**
+     * Renders the opening tag for the given element.
+     *
+     * @param ElementInterface $element Element to render.
+     *
+     * @return string
+     */
+    public function openTag(ElementInterface $element)
+    {
+        $attributes = $element->getAttributes();
+        $attributeString = $this->getAttributeString($attributes);
+
+        return sprintf(
+            '<%s%s>',
+            $element->getTag(),
+            $attributeString ? ' ' . $attributeString : ''
+        );
     }
 }
