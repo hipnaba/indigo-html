@@ -54,4 +54,22 @@ class ElementTest extends TestCase
 
         $this->assertEquals('value', $element->getAttribute('href'));
     }
+
+    /**
+     * Can append child elements.
+     *
+     * @return void
+     */
+    public function testCanAppendChildElements()
+    {
+        $element = new Element('div');
+
+        $one = new Element('div');
+        $two = new Element('div');
+
+        $element->append($one);
+        $element->append($two);
+
+        $this->assertCount(2, $element);
+    }
 }

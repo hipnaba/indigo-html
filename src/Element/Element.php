@@ -124,7 +124,7 @@ class Element implements ElementInterface
      */
     public function append(ElementInterface $element)
     {
-        $this->children[] = $element;
+        $this->children->append($element);
     }
 
     /**
