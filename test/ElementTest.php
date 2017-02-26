@@ -83,6 +83,6 @@ class ElementTest extends TestCase
         $element->append($one);
         $element->append($two);
 
-        $this->assertCount(2, $element);
+        $this->assertCount(2, $element->getChildren());
     }
 }

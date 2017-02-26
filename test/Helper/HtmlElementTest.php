@@ -2,11 +2,13 @@
 namespace IndigoTest\Html\Element;
 
 use Indigo\Html\Element;
-use Indigo\Html\Element\RenderableWrapper;
+use Indigo\Html\Element\Renderable;
 use Indigo\Html\Helper\HtmlElement;
 use Indigo\Html\Module;
+use Indigo\View\ConfigProvider;
 use PHPUnit\Framework\TestCase;
 use Zend\ServiceManager\ServiceManager;
+use Zend\Stdlib\ArrayUtils;
 use Zend\View\HelperPluginManager;
 use Zend\View\Renderer\PhpRenderer;
 
@@ -36,8 +38,12 @@ class HtmlElementTest extends TestCase
         parent::setUp();
 
         $container = new ServiceManager();
+
+        $indigoView = new ConfigProvider();
         $module = new Module();
-        $helpers = new HelperPluginManager($container, $module->getViewHelperConfig());
+
+        $config = ArrayUtils::merge($indigoView->getViewHelperConfig(), $module->getViewHelperConfig());
+        $helpers = new HelperPluginManager($container, $config);
 
         $renderer = new PhpRenderer();
         $renderer->setHelperPluginManager($helpers);
@@ -110,7 +116,7 @@ class HtmlElementTest extends TestCase
         $element->append($child);
         $element->append($child);
 
-        $this->assertCount(3, $element);
+        $this->assertCount(3, $element->getChildren());
 
         $rendered = $this->helper->render($element);
         $expected = <<< EOS
@@ -142,7 +148,7 @@ EOS;
             return $object['key'];
         };
 
-        $wrapper = new RenderableWrapper($object, $helper);
+        $wrapper = new Renderable($object, $helper);
 
         $element = new Element('div');
         $element->append($wrapper);

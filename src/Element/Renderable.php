@@ -2,23 +2,23 @@
 namespace Indigo\Html\Element;
 
 use Indigo\Html\Element;
-use Indigo\View\RenderableInterface;
+use Indigo\View\RenderableProxyInterface;
 
 /**
- * Enables adding any kind of object to HTML element as long as they can be rendered.
+ * Enables adding any kind of object as a child to HTML element as long as they can be rendered.
  *
  * @package Indigo\Html\Element
  * @author  Danijel Fabijan <danijel.fabijan@bruckom.hr>
  * @link    https://bitbucket.org/bruckom/bwp-core
  */
-class RenderableWrapper extends Element implements RenderableInterface
+class Renderable extends Element implements RenderableProxyInterface
 {
     /**
      * The object to be rendered.
      *
      * @var mixed
      */
-    protected $object;
+    protected $objectToRender;
 
     /**
      * The helper to be used to render the object.
@@ -30,25 +30,25 @@ class RenderableWrapper extends Element implements RenderableInterface
     /**
      * RenderableWrapper constructor.
      *
-     * @param mixed $object Object to render.
-     * @param mixed $helper Helper to render the object with.
+     * @param mixed $objectToRender Object to render.
+     * @param mixed $helperPlugin   Helper to render the object with.
      */
-    public function __construct($object, $helper)
+    public function __construct($objectToRender, $helperPlugin)
     {
         parent::__construct('div');
 
-        $this->object = $object;
-        $this->helperPlugin = $helper;
+        $this->objectToRender = $objectToRender;
+        $this->helperPlugin = $helperPlugin;
     }
 
     /**
-     * Returns the object to be rendered.
+     * Returns the object for rendering.
      *
      * @return mixed
      */
-    public function getObject()
+    public function getObjectToRender()
     {
-        return $this->object;
+        return $this->objectToRender;
     }
 
     /**

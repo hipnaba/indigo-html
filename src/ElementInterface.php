@@ -1,10 +1,8 @@
 <?php
 namespace Indigo\Html;
 
-use Countable;
 use Indigo\Html\Attribute\AttributeAwareInterface;
 use Indigo\Html\Attribute\CssClassAwareInterface;
-use IteratorAggregate;
 
 /**
  * Defines a HTML element.
@@ -14,8 +12,6 @@ use IteratorAggregate;
  * @link    https://github.com/hipnaba/indigo-html
  */
 interface ElementInterface extends
-    Countable,
-    IteratorAggregate,
     AttributeAwareInterface,
     CssClassAwareInterface
 {
@@ -184,6 +180,13 @@ interface ElementInterface extends
     public function setContent($content);
 
     /**
+     * Returns true if the element has child elements.
+     *
+     * @return bool
+     */
+    public function hasChildren();
+
+    /**
      * Returns child elements
      *
      * @return ElementInterface[]
@@ -193,9 +196,9 @@ interface ElementInterface extends
     /**
      * Adds another alement as a child.
      *
-     * @param ElementInterface $element Element to append to this one
+     * @param mixed $element Element to append to this one.
      *
      * @return void
      */
-    public function append(ElementInterface $element);
+    public function append($element);
 }

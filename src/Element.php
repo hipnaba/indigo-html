@@ -3,7 +3,9 @@ namespace Indigo\Html;
 
 use Indigo\Html\Attribute\AttributeAwareTrait;
 use Indigo\Html\Attribute\CssClassAwareTrait;
+use Indigo\Html\Element\Renderable;
 use Indigo\Html\Exception;
+use Indigo\View\RenderableInterface;
 use Zend\Stdlib\ArrayObject;
 
 /**
@@ -108,6 +110,16 @@ class Element implements ElementInterface
     /**
      * {@inheritdoc}
      *
+     * @return bool
+     */
+    public function hasChildren()
+    {
+        return count($this->children) > 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @return ElementInterface[]
      */
     public function getChildren()
@@ -118,32 +130,27 @@ class Element implements ElementInterface
     /**
      * {@inheritdoc}
      *
-     * @param ElementInterface $element Element to append to this one
+     * @param mixed $element Element to append to this one
      *
      * @return void
      */
-    public function append(ElementInterface $element)
+    public function append($element)
     {
+        if (!$element instanceof ElementInterface
+            && $element instanceof RenderableInterface
+        ) {
+            $element = new Renderable($element, $element->getHelperPlugin());
+        }
+
+        if (!$element instanceof ElementInterface) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Cannot append '%s' to a HTML element",
+                    is_object($element) ? get_class($element) : gettype($element)
+                )
+            );
+        }
+
         $this->children->append($element);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @return integer
-     */
-    public function count()
-    {
-        return count($this->children);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @return ElementInterface[]
-     */
-    public function getIterator()
-    {
-        return $this->children;
     }
 }

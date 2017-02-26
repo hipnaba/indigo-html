@@ -1,8 +1,9 @@
 <?php
 namespace Indigo\Html\Helper;
 
-use Indigo\Html\Element\RenderableWrapper;
 use Indigo\Html\ElementInterface;
+use Indigo\View\Helper\Renderable;
+use Indigo\View\RenderableInterface;
 
 /**
  * Renders a HTML element.
@@ -13,6 +14,30 @@ use Indigo\Html\ElementInterface;
  */
 class HtmlElement extends AbstractHtmlHelper
 {
+    /**
+     * Renderable helper.
+     *
+     * @var Renderable
+     */
+    protected $renderable;
+
+    /**
+     * Returns the Renderable helper.
+     *
+     * @return Renderable
+     */
+    public function getRenderableHelper()
+    {
+        if (null === $this->renderable) {
+            if ($this->view && method_exists($this->view, 'plugin')) {
+                $this->renderable = $this->view->plugin('renderable');
+            } else {
+                $this->renderable = new Renderable();
+            }
+        }
+        return $this->renderable;
+    }
+
     /**
      * Renders a HTML element.
      *
@@ -25,32 +50,17 @@ class HtmlElement extends AbstractHtmlHelper
         $rendered = $this->openTag($element);
         $content = '';
 
-        if (count($element) > 0) {
-            $content .= "\n";
+        if ($element->hasChildren()) {
+            $content .= PHP_EOL;
 
             foreach ($element->getChildren() as $child) {
-                if ($child instanceof RenderableWrapper) {
-                    $helper = $child->getHelperPlugin();
-
-                    if (is_string($helper)) {
-                        $helper = $this->getView()->plugin($helper);
-                    }
-
-                    if (!is_callable($helper)) {
-                        throw new \DomainException(
-                            sprintf(
-                                "Can't render %s, helper %s isn't callable",
-                                get_class($child->getObject()),
-                                $helper
-                            )
-                        );
-                    }
-
-                    $content .= '    ' . $helper($child->getObject()) . "\n";
+                if ($child instanceof RenderableInterface) {
+                    $renderable = $this->getRenderableHelper();
+                    $content .= '    ' . $renderable->render($child) . PHP_EOL;
                     continue;
                 }
 
-                $content .= '    ' . $this->render($child) . "\n";
+                $content .= '    ' . $this->render($child) . PHP_EOL;
             }
         }
 
