@@ -4,8 +4,8 @@ namespace IndigoTest\Html\Element;
 use Indigo\Html\Element;
 use Indigo\Html\Element\Renderable;
 use Indigo\Html\Helper\HtmlElement;
-use Indigo\Html\Module;
-use Indigo\View\ConfigProvider;
+use Indigo\Html\ConfigProvider as IndigoHtmlConfig;
+use Indigo\View\ConfigProvider as IndigoViewConfig;
 use PHPUnit\Framework\TestCase;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\ArrayUtils;
@@ -39,10 +39,10 @@ class HtmlElementTest extends TestCase
 
         $container = new ServiceManager();
 
-        $indigoView = new ConfigProvider();
-        $module = new Module();
+        $indigoView = new IndigoViewConfig();
+        $indigoHtml = new IndigoHtmlConfig();
 
-        $config = ArrayUtils::merge($indigoView->getViewHelperConfig(), $module->getViewHelperConfig());
+        $config = ArrayUtils::merge($indigoView->getViewHelperConfig(), $indigoHtml->getViewHelperConfig());
         $helpers = new HelperPluginManager($container, $config);
 
         $renderer = new PhpRenderer();

@@ -2,20 +2,19 @@
 namespace Indigo\Html;
 
 use Indigo\Html\Helper;
-use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
 /**
- * Class Module
+ * Provides configuration for other components.
  *
  * @package Indigo\Html
  * @author  Danijel Fabijan <hipnaba@gmail.com>
  * @link    https://github.com/hipnaba/indigo-html
  */
-class Module implements ViewHelperProviderInterface
+class ConfigProvider
 {
     /**
-     * {@inheritdoc}
+     * Returns the view helper manager configuration.
      *
      * @return array
      */
