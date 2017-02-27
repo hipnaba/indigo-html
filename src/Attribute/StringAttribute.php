@@ -23,6 +23,8 @@ class StringAttribute extends Attribute
     {
         if (is_object($value) && method_exists($value, '__toString')) {
             $value = $value->__toString();
+        } elseif (null === $value) {
+            $value = '';
         }
 
         if (!is_scalar($value)) {
