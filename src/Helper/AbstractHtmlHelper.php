@@ -4,7 +4,7 @@ namespace Indigo\Html\Helper;
 use Indigo\Html\Attribute\AttributeInterface;
 use Indigo\Html\ElementInterface;
 use Indigo\Html\ViewHelpers;
-use Zend\View\Helper\AbstractHelper as BaseAbstractHelper;
+use Indigo\View\Helper\AbstractHelper as BaseAbstractHelper;
 use Zend\View\Helper\EscapeHtml;
 use Zend\View\Helper\EscapeHtmlAttr;
 use Zend\View\Renderer\PhpRenderer;
@@ -52,6 +52,56 @@ abstract class AbstractHtmlHelper extends BaseAbstractHelper
     ];
 
     /**
+     * HTML escaper.
+     *
+     * @var EscapeHtml
+     */
+    protected $escapeHtml;
+
+    /**
+     * Escaper za atribute.
+     *
+     * @var EscapeHtmlAttr
+     */
+    protected $escapeHtmlAttr;
+
+    /**
+     * Vraća HTML escaper.
+     *
+     * @return EscapeHtml
+     */
+    protected function getEscapeHtmlHelper()
+    {
+        if (null === $this->escapeHtml) {
+            if (method_exists($this->view, 'plugin')) {
+                $this->escapeHtml = $this->view->plugin('escapeHtml');
+            } else {
+                $this->escapeHtml = new EscapeHtml();
+            }
+        }
+
+        return $this->escapeHtml;
+    }
+
+    /**
+     * Vraća escaper za atribute.
+     *
+     * @return EscapeHtmlAttr
+     */
+    protected function getEscapeHtmlAttrHelper()
+    {
+        if (null === $this->escapeHtmlAttr) {
+            if (method_exists($this->view, 'plugin')) {
+                $this->escapeHtmlAttr = $this->view->plugin('escapeHtmlAttr');
+            } else {
+                $this->escapeHtmlAttr = new EscapeHtmlAttr();
+            }
+        }
+
+        return $this->escapeHtmlAttr;
+    }
+
+    /**
      * Renders an Indigo Element.
      *
      * If no element is passed, returns itself. Can be used to configure
@@ -94,19 +144,8 @@ abstract class AbstractHtmlHelper extends BaseAbstractHelper
             return '';
         }
 
-        /**
-         * HTML escaper
-         *
-         * @var EscapeHtml $escapeHtml
-         */
-        $escapeHtml = $this->getView()->plugin('escapeHtml');
-
-        /**
-         * HTML attribute escaper
-         *
-         * @var EscapeHtmlAttr $escapeHtmlAttr
-         */
-        $escapeHtmlAttr = $this->getView()->plugin('escapeHtmlAttr');
+        $escapeHtml = $this->getEscapeHtmlHelper();
+        $escapeHtmlAttr = $this->getEscapeHtmlAttrHelper();
 
         $rendered = [];
 
