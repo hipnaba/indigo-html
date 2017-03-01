@@ -196,9 +196,9 @@ interface ElementInterface extends
     /**
      * Adds another alement as a child.
      *
-     * @param mixed $element Element to append to this one.
+     * @param ElementInterface $element Element to append to this one.
      *
      * @return void
      */
-    public function append($element);
+    public function append(ElementInterface $element);
 }

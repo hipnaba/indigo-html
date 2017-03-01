@@ -2,8 +2,9 @@
 namespace Indigo\Html\Helper;
 
 use Indigo\Html\ElementInterface;
-use Indigo\View\Helper\Renderable;
-use Indigo\View\RenderableInterface;
+use Indigo\View\Helper\Indent;
+use Indigo\View\Helper\RenderObject;
+use Indigo\View\HelperPluginAwareInterface;
 
 /**
  * Renders a HTML element.
@@ -15,27 +16,52 @@ use Indigo\View\RenderableInterface;
 class HtmlElement extends AbstractHtmlHelper
 {
     /**
-     * Renderable helper.
+     * Indent helper.
      *
-     * @var Renderable
+     * @var Indent
      */
-    protected $renderable;
+    protected $indent;
 
     /**
-     * Returns the Renderable helper.
+     * RenderObject helper.
      *
-     * @return Renderable
+     * @var RenderObject
      */
-    public function getRenderableHelper()
+    protected $renderObject;
+
+    /**
+     * Returns the Indent helper.
+     *
+     * @return Indent
+     */
+    public function getIndentHelper()
     {
-        if (null === $this->renderable) {
+        if (null === $this->indent) {
             if ($this->view && method_exists($this->view, 'plugin')) {
-                $this->renderable = $this->view->plugin('renderable');
+                $this->indent = $this->view->plugin('indent');
             } else {
-                $this->renderable = new Renderable();
+                $this->indent = new Indent();
             }
         }
-        return $this->renderable;
+
+        return $this->indent;
+    }
+
+    /**
+     * Returns the RenderObject helper.
+     *
+     * @return RenderObject
+     */
+    public function getRenderObjectHelper()
+    {
+        if (null === $this->renderObject) {
+            if ($this->view && method_exists($this->view, 'plugin')) {
+                $this->renderObject = $this->view->plugin('renderObject');
+            } else {
+                $this->renderObject = new RenderObject();
+            }
+        }
+        return $this->renderObject;
     }
 
     /**
@@ -47,25 +73,35 @@ class HtmlElement extends AbstractHtmlHelper
      */
     public function render(ElementInterface $element)
     {
+        $indent = $this->getIndentHelper();
+        $renderObject = $this->getRenderObjectHelper();
+
         $rendered = $this->openTag($element);
-        $content = '';
+        $content = [];
 
         if ($element->hasChildren()) {
-            $content .= PHP_EOL;
-
             foreach ($element->getChildren() as $child) {
-                if ($child instanceof RenderableInterface) {
-                    $renderable = $this->getRenderableHelper();
-                    $content .= '    ' . $renderable->render($child) . PHP_EOL;
+                // The element wants to be rendererd by another helper.
+                if ($child instanceof HelperPluginAwareInterface) {
+                    $content[] = $renderObject->render($child);
                     continue;
                 }
 
-                $content .= '    ' . $this->render($child) . PHP_EOL;
+                $content[] = $this->render($child);
             }
         }
 
+        if ($element->getContent()) {
+            $content[] = $element->getContent();
+        }
+
+        $rendered .= count($content) > 1
+            // Multiline content
+            ? PHP_EOL . $indent(implode(PHP_EOL . PHP_EOL, $content)) . PHP_EOL
+            : implode($content);
+
+
         if ($this->hasEndTag($element)) {
-            $rendered .= $content ?: $element->getContent();
             $rendered .= sprintf('</%s>', $element->getTag());
         }
 

@@ -2,11 +2,10 @@
 namespace IndigoTest\Html\Element;
 
 use Indigo\Html\Element;
-use Indigo\Html\Element\Renderable;
 use Indigo\Html\Helper\HtmlElement;
 use Indigo\Html\ConfigProvider as IndigoHtmlConfig;
 use Indigo\View\ConfigProvider as IndigoViewConfig;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\DOMTestCase;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\ArrayUtils;
 use Zend\View\HelperPluginManager;
@@ -19,7 +18,7 @@ use Zend\View\Renderer\PhpRenderer;
  * @author  Danijel Fabijan <hipnaba@gmail.com>
  * @link    https://github.com/hipnaba/indigo-html
  */
-class HtmlElementTest extends TestCase
+class HtmlElementTest extends DOMTestCase
 {
     /**
      * The helper under test.
@@ -117,50 +116,9 @@ class HtmlElementTest extends TestCase
         $element->append($child);
 
         $this->assertCount(3, $element->getChildren());
-
         $rendered = $this->helper->render($element);
-        $expected = <<< EOS
-<div>
-    <p>
-    <strong>content</strong>
-</p>
-    <p>
-    <strong>content</strong>
-</p>
-    <p>
-    <strong>content</strong>
-</p>
-</div>
-EOS;
 
-        $this->assertEquals($expected, $rendered);
-    }
-
-    /**
-     * The helper will delegate rendering to other helpers if element implements RenderableInterface
-     *
-     * @return void
-     */
-    public function testWillDelegateRenderingForRenderableElements()
-    {
-        $object = ['key' => 'value'];
-        $helper = function ($object) {
-            return $object['key'];
-        };
-
-        $wrapper = new Renderable($object, $helper);
-
-        $element = new Element('div');
-        $element->append($wrapper);
-
-
-        $rendered = $this->helper->render($element);
-        $expected = <<< EOS
-<div>
-    value
-</div>
-EOS;
-
-        $this->assertEquals($expected, $rendered);
+        $this->assertSelectCount('div', 1, $rendered);
+        $this->assertSelectCount('div > p > strong', 3, $rendered);
     }
 }

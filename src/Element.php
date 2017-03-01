@@ -3,9 +3,7 @@ namespace Indigo\Html;
 
 use Indigo\Html\Attribute\AttributeAwareTrait;
 use Indigo\Html\Attribute\CssClassAwareTrait;
-use Indigo\Html\Element\Renderable;
 use Indigo\Html\Exception;
-use Indigo\View\RenderableInterface;
 use Zend\Stdlib\ArrayObject;
 
 /**
@@ -130,27 +128,12 @@ class Element implements ElementInterface
     /**
      * {@inheritdoc}
      *
-     * @param mixed $element Element to append to this one
+     * @param ElementInterface $element Element to append to this one.
      *
      * @return void
      */
-    public function append($element)
+    public function append(ElementInterface $element)
     {
-        if (!$element instanceof ElementInterface
-            && $element instanceof RenderableInterface
-        ) {
-            $element = new Renderable($element, $element->getHelperPlugin());
-        }
-
-        if (!$element instanceof ElementInterface) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Cannot append '%s' to a HTML element",
-                    is_object($element) ? get_class($element) : gettype($element)
-                )
-            );
-        }
-
         $this->children->append($element);
     }
 }
