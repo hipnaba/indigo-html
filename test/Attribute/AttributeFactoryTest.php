@@ -90,4 +90,19 @@ class AttributeFactoryTest extends TestCase
 
         $this->assertNotNull($attribute);
     }
+
+    /**
+     * The factory can create <img> elements.
+     *
+     * @return void
+     */
+    public function testCanCreateImgTagAttributes()
+    {
+        $factory = new AttributeFactory();
+        $element = new Element('img');
+
+        $attribute = $factory->create('src', $element);
+
+        $this->assertNotNull($attribute);
+    }
 }

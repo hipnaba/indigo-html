@@ -235,6 +235,7 @@ class AttributeFactory
             'volume' => [],
         ],
         'img' => [
+            'src' => [],
             'alt' => [],
             'crossorigin' => [
                 'type' => 'enum',
