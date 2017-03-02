@@ -2,8 +2,15 @@
 namespace IndigoTest\Html\Element;
 
 use Indigo\Html\Element;
+use Indigo\Html\ElementInterface;
 use Indigo\Html\Helper\HtmlElement;
+use Indigo\Test\TestUtilsTrait;
 use PHPUnit\Framework\DOMTestCase;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
+use Zend\View\Helper\EscapeHtml;
+use Zend\View\Helper\EscapeHtmlAttr;
+use Zend\View\Renderer\PhpRenderer;
+use Zend\View\Renderer\RendererInterface;
 
 /**
  * Class HtmlElementTest
@@ -14,6 +21,67 @@ use PHPUnit\Framework\DOMTestCase;
  */
 class HtmlElementTest extends DOMTestCase
 {
+    use TestUtilsTrait;
+
+    /**
+     * The helper has the proper interface.
+     *
+     * @return void
+     */
+    public function testHelperInterface()
+    {
+        $helper = new HtmlElement();
+        $element = $this->createMock(ElementInterface::class);
+
+        $this->assertTrue(is_callable($helper));
+        $this->assertSame($helper, $helper());
+        $this->assertInternalType('string', $helper($element));
+    }
+
+    /**
+     * The helper should provide default helpers.
+     *
+     * @return void
+     */
+    public function testHelperProvidesDefaultHelpers()
+    {
+        $helper = new HtmlElement();
+
+        $indent = $this->callProtectedMethod($helper, 'getEscapeHtmlHelper');
+        $this->assertInstanceOf(EscapeHtml::class, $indent);
+
+        $renderObject = $this->callProtectedMethod($helper, 'getEscapeHtmlAttrHElper');
+        $this->assertInstanceOf(EscapeHtmlAttr::class, $renderObject);
+    }
+
+    /**
+     * The helper should try to fetch the plugins from the renderer.
+     *
+     * @return void
+     */
+    public function testHelperWillFetchPluginsFromTheRenderer()
+    {
+        /**
+         * Resolver.
+         *
+         * @var RendererInterface|MockObject $renderer
+         */
+        $renderer = $this->createMock(PhpRenderer::class);
+        $renderer
+            ->expects($this->exactly(2))
+            ->method('plugin')
+            ->withConsecutive(
+                ['escapeHtml'],
+                ['escapeHtmlAttr']
+            );
+
+        $helper = new HtmlElement();
+        $helper->setView($renderer);
+
+        $this->callProtectedMethod($helper, 'getEscapeHtmlHelper');
+        $this->callProtectedMethod($helper, 'getEscapeHtmlAttrHelper');
+    }
+
     /**
      * Can render elements without closing tags.
      *
