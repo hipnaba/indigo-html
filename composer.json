@@ -27,6 +27,7 @@
     }
   },
   "require-dev": {
+    "hipnaba/indigo-test": "dev-master",
     "phpunit/phpunit": "^6.0",
     "phpunit/phpunit-dom-assertions": "*",
     "zendframework/zend-modulemanager": "^2.7",
