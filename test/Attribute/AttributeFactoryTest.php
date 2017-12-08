@@ -5,6 +5,7 @@ use Indigo\Html\Attribute\AttributeFactory;
 use Indigo\Html\Attribute\AttributeInterface;
 use Indigo\Html\Attribute\StringAttribute;
 use Indigo\Html\Element;
+use Indigo\Html\Exception\InvalidAttributeNameException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -58,6 +59,21 @@ class AttributeFactoryTest extends TestCase
         $factory = new AttributeFactory();
 
         $factory->create('invalid');
+    }
+
+	/**
+	 * @expectedException \Indigo\Html\Exception\InvalidAttributeNameException
+	 */
+    public function testWillThrowExceptionContainingInvalidAttributeName()
+    {
+	    $factory = new AttributeFactory();
+
+	    try {
+	    	$factory->create('invalid-attribute-name');
+	    } catch (InvalidAttributeNameException $e) {
+	    	$this->assertContains('invalid-attribute-name', $e->getMessage());
+	    	throw $e;
+	    }
     }
 
     /**
