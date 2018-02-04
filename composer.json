@@ -15,7 +15,7 @@
     "email": "hipnaba@gmail.com"
   },
   "require": {
-    "hipnaba/indigo-view": "dev-master",
+    "hipnaba/indigo-view": "^1.0",
 
     "zendframework/zend-escaper": "^2.5",
     "zendframework/zend-json": "^3.0",
